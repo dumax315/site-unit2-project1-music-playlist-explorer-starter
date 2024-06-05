@@ -24,10 +24,18 @@
             <div class="modalFlex">
 
                 <img id="playlistModalImage" src="" alt="playlist Image">
-                <h2 id="playlistModalName"></h2>
+                <div class="modalVertFlex">
+                    <h2 id="playlistModalName"></h2>
 
+                    <p id="playlistModalCreatorName"></p>
+                </div>
+                <div class="playlistItemLikesContainer">
+                    <button class="playlistItemHeart">Like</button>
+                    <div id="playlistModalLikesCount" class="playListItemLikesCount"></div>
+                </div>
             </div>
-            <ul class="playlistListOfSongs">
+            <button id="shuffleSongsList">shuffle</button>
+            <ul id="playlistListOfSongs">
 
             </ul>
             <div id="artistModalLineup"></div>
@@ -44,7 +52,7 @@
                 <p class="playlistItemCreatorName">Creator Name</p>
                 <div class="playlistItemLikesContainer">
                     <button class="playlistItemHeart">Like</button>
-                    <div class="playListItemLikesCount">5</div>
+                    <div class="playlistItemLikesCount">5</div>
                 </div>
             </li>
 
