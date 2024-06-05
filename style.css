@@ -69,7 +69,7 @@ header h1 {
     display: flex;
     justify-content: flex-start;
 }
-.modalFlex img {
+.modalFlex #playlistModalImage {
     margin-right: 1em;
 }
 .modalFlex div:last-child {
@@ -136,7 +136,7 @@ header h1 {
     justify-content: flex-start;
 }
 
-.playlistItem div:last-child{
+.playlistItem .playlistItemLikesContainer:last-child{
     margin-top: auto;
     margin-bottom: .33em;
 }
@@ -160,6 +160,16 @@ header h1 {
     display: flex;
     gap: .5em;
     align-items: center;
+    /* width: 90px; */
+    justify-content: flex-end;
 }
 
+.playlistItemHeart {
+    width: 1em;
+    filter: invert(12%) sepia(55%) saturate(6619%) hue-rotate(350deg) brightness(91%) contrast(115%);
+}
+
+.playlistItemLikesCount, .playlistItemHeart {
+    margin: 0px;
+}
 

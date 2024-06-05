@@ -9,12 +9,25 @@
     <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
 
     <link rel="stylesheet" href="style.css">
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> -->
+    
 </head>
 
 <body>
     <header>
         <!-- Your header content here -->
         <h1>Music PlayList Explorer</h1>
+        <div id="userInfoAndButtons">
+            <div id="notLogedIn">
+                <button id="githubSignUp">Sign In/Up with Github</button>
+            </div>
+            <div id="logedIn">
+                Hello <span id="username"></span>
+                <button id="signOut">Sign Out</button>
+
+            </div>
+        </div>
+
     </header>
 
     <!-- Modal Structure -->
@@ -29,8 +42,8 @@
 
                     <p id="playlistModalCreatorName"></p>
                 </div>
-                <div class="playlistItemLikesContainer">
-                    <button class="playlistItemHeart">Like</button>
+                <div id="playlistModalLikesContainer" class="playlistItemLikesContainer">
+                    <img class="playlistItemHeart" id ="playlistModalHeart" src="assets/img/heart-regular.svg" >
                     <div id="playlistModalLikesCount" class="playListItemLikesCount"></div>
                 </div>
             </div>
@@ -51,7 +64,7 @@
                 <h3 class="playlistItemTitle">Playlist Title</h3>
                 <p class="playlistItemCreatorName">Creator Name</p>
                 <div class="playlistItemLikesContainer">
-                    <button class="playlistItemHeart">Like</button>
+                    <img class="playlistItemHeart" src="assets/img/heart-regular.svg" >
                     <div class="playlistItemLikesCount">5</div>
                 </div>
             </li>
@@ -64,7 +77,9 @@
         <!-- Your footer content here -->
     </footer>
     <!-- <script src="data/data.js"></script> -->
-    <script src="script.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> -->
+
+    <script type="module" src="script.js"></script>
 </body>
 
 </html>

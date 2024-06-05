@@ -4,7 +4,7 @@
         "playlist_name": "Late Night Drive",
         "playlist_creator": "Melody Maven",
         "playlist_art": "https://picsum.photos/id/36/200",
-        "likeCount": 0,
+        "liked_users": [],
         "songs": [
             {
                 "songID": 0,
@@ -53,7 +53,7 @@
         "playlist_name": "That Summer '16 Feeling",
         "playlist_creator": "Groove Guardian",
         "playlist_art": "https://picsum.photos/id/117/200",
-        "likeCount": 0,
+        "liked_users": [],
         "songs": [
             {
                 "songID": 5,
@@ -102,7 +102,7 @@
         "playlist_name": "Workout Beats",
         "playlist_creator": "Harmony Herald",
         "playlist_art": "https://picsum.photos/id/1077/200",
-        "likeCount": 0,
+        "liked_users": [],
         "songs": [
             {
                 "songID": 10,
@@ -151,7 +151,7 @@
         "playlist_name": "Road Trip Anthems",
         "playlist_creator": "Playlist Pioneer",
         "playlist_art": "https://picsum.photos/id/314/200",
-        "likeCount": 0,
+        "liked_users": [],
         "songs": [
             {
                 "songID": 15,
@@ -200,7 +200,7 @@
         "playlist_name": "Boss Chick Energy",
         "playlist_creator": "Tempo Tactician",
         "playlist_art": "https://picsum.photos/id/449/200",
-        "likeCount": 0,
+        "liked_users": [],
         "songs": [
             {
                 "songID": 20,
@@ -249,7 +249,7 @@
         "playlist_name": "Rainy Nights",
         "playlist_creator": "Sonic Sage",
         "playlist_art": "https://picsum.photos/id/115/200",
-        "likeCount": 0,
+        "liked_users": ["local"],
         "songs": [
             {
                 "songID": 25,
@@ -298,7 +298,7 @@
         "playlist_name": "90's R&B",
         "playlist_creator": "Vinyl Virtuoso",
         "playlist_art": "https://picsum.photos/id/815/200",
-        "likeCount": 0,
+        "liked_users": [],
         "songs": [
             {
                 "songID": 30,
@@ -347,7 +347,7 @@
         "playlist_name": "Nothing But The Classics",
         "playlist_creator": "Echo Enthusiast",
         "playlist_art": "https://picsum.photos/id/22/200",
-        "likeCount": 0,
+        "liked_users": [],
         "songs": [
             {
                 "songID": 35,
@@ -396,7 +396,7 @@
         "playlist_name": "Ohh That Baseline",
         "playlist_creator": "Bassline Buddy",
         "playlist_art": "https://picsum.photos/id/836/200",
-        "likeCount": 0,
+        "liked_users": [],
         "songs": [
             {
                 "songID": 40,
