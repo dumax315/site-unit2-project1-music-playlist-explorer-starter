@@ -322,6 +322,7 @@ const addSongButtonCode = `
 function renderSongList(playlistToOpen) {
     const songlistContainer = document.getElementById("playlistListOfSongs");
     songlistContainer.innerHTML = addSongButtonCode;
+    // alert("Asdf")
     document.getElementById("createNewSongButton").addEventListener("click", () =>{
         if (typeof createSongModal.showModal === "function") {
             createSongModal.showModal();
