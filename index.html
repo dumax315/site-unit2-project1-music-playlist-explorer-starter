@@ -20,6 +20,8 @@
         <div id="userInfoAndButtons">
             <div id="notLogedIn">
                 <button id="githubSignUp">Sign In/Up with Github</button>
+                <a href="/signup.html">Sign Up with email/password</a>
+                <a href="/signup.html">Sign In with email/password</a>
             </div>
             <div id="logedIn">
                 Hello <span id="username"></span>
@@ -37,7 +39,6 @@
         <div class="modal-content">
             <span id="modalClose">&times;</span>
             <div class="modalFlex">
-
                 <img id="playlistModalImage" src="" alt="playlist Image">
                 <div class="modalVertFlex">
                     <h2 id="playlistModalName"></h2>
@@ -57,9 +58,76 @@
         </div>
     </div>
 
+    <!-- create playlist modal -->
+    <!-- code modified from https://developer.mozilla.org/en-US/docs/Web/CSS/:modal -->
+    <dialog id="createPlaylistModal">
+        <form method="dialog">
+            <h2>Create a new playlist</h2>
+            <p>
+                <div>
+                    <input type="text" id="name" name="name"  />
+                    <label for="name">Playlist name</label>
+                </div>
+                <div>
+                    <input type="url" name="url" id="url" placeholder="https://example.com" pattern="https://.*" />
+                    <label for="url">Enter an image url</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="public" name="public" />
+                    <label for="public">Public (only public playlists can be shared but being in a public playlist exposes your email address)</label>
+                </div>
+            </p>
+            <div>
+                <button value="cancel">Cancel</button>
+                <button id="confirmBtn" value="confirm">Confirm</button>
+            </div>
+        </form>
+    </dialog>
+
+    <!-- "songID": playlistToOpen.songs.length*8+getRandomInt(0,8),
+            "title": document.getElementById("addSongName").value,
+            "artist": document.getElementById("addSongArtist").value,
+            "album": document.getElementById("addSongAlbum").value,
+            "cover_art": document.getElementById("addSongCoverArt").value,
+            "duration": document.getElementById("addSongDuration").value -->
+        <dialog id="createSongModal">
+            <form method="dialog">
+                <h2>Add a new song</h2>
+                <p>
+                    Search+autofill comming soon
+                    <div>
+                        <input type="text" id="addSongName" name="addSongName"  />
+                        <label for="addSongName">Song name</label>
+                    </div>
+                    <div>
+                        <input type="url" name="addSongCoverArt" id="addSongCoverArt" placeholder="https://example.com" pattern="https://.*" />
+                        <label for="addSongCoverArt">Song art</label>
+                    </div>
+                    <div>
+                        <input type="text" id="addSongAlbum" name="addSongAlbum"  />
+                        <label for="addSongAlbum">Song album name</label>
+                    </div>
+                    <div>
+                        <input type="text" id="addSongArtist" name="addSongArtist"  />
+                        <label for="addSongArtist">Song artist name</label>
+                    </div>
+                    <div>
+                        <input type="text" id="addSongDuration" name="addSongDuration"  />
+                        <label for="addSongDuration">Song song duration</label>
+                    </div>
+                    
+                </p>
+                <div>
+                    <button value="cancel">Cancel</button>
+                    <button id="confirmBtn" value="confirm">Confirm</button>
+                </div>
+            </form>
+        </dialog>
+
     <main>
         <!-- Your main content here -->
         <ul id="playlistsContainer" class="playlistCards">
+
             <!-- <li class="playlistItem"
                 onclick="openModal(0)">
                 <img class="playlistItemImage" src="assets/img/playlist.png" alt="playlist Image"></img>

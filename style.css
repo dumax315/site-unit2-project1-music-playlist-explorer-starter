@@ -1,5 +1,5 @@
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: "Arial", sans-serif;
     margin: 0;
     padding: 0;
     background-color: #f8f8f8;
@@ -10,11 +10,9 @@ header {
     background-color: lightgray;
     padding: 1em;
     margin-bottom: 1em;
-
 }
 header h1 {
     margin: 0;
-    
 }
 
 /* CSS for Modal */
@@ -35,7 +33,6 @@ header h1 {
     /* Enable scroll if needed */
     background-color: rgba(0, 0, 0, 0.4);
     /* Black w/ opacity */
-   
 }
 
 .modal-content {
@@ -48,7 +45,7 @@ header h1 {
     border: 1px solid #888;
     width: 80%;
     /* Could be more or less, depending on screen size */
-    border-radius: .5em;
+    border-radius: 0.5em;
 }
 
 #modalClose {
@@ -71,22 +68,24 @@ header h1 {
 }
 .modalFlex #playlistModalImage {
     margin-right: 1em;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    width: 30%;
+
 }
 .modalFlex div:last-child {
     margin-left: auto;
 }
 
-
 /* css for the inner modal song list */
-#playlistListOfSongs{
+#playlistListOfSongs {
     padding: 0px;
     list-style-type: none;
-
 }
 .songlistItemContainer {
     display: flex;
-    align-items: center; 
-    justify-content: flex-start; 
+    align-items: center;
+    justify-content: flex-start;
     padding: 4px;
     border-radius: 4px;
     border: 1px solid black;
@@ -96,12 +95,15 @@ header h1 {
 
 .songlistItemContainer div:last-child {
     margin-left: auto;
-    margin-right: .5em;
+    margin-right: 0.5em;
 }
 
 .songlistItemImg {
     height: 100px;
-    margin-right: .5em;
+    margin-right: 0.5em;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+
 }
 
 .modalVertFlex {
@@ -109,7 +111,7 @@ header h1 {
     flex-direction: column;
 }
 
-.songlistItemTitle{
+.songlistItemTitle {
     margin: 0px;
 }
 
@@ -134,15 +136,16 @@ header h1 {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    overflow: hidden;
 }
 
-.playlistItem .playlistItemLikesContainer:last-child{
+.playlistItem .playlistItemLikesContainer:last-child {
     margin-top: auto;
-    margin-bottom: .33em;
+    margin-bottom: 0.33em;
 }
 
 .playlistItemTitle {
-    margin:0px;
+    margin: 0px;
     /* TODO decide whether to have a min height */
     /* min-height:2.5em; */
 }
@@ -154,11 +157,13 @@ header h1 {
 
 .playlistItemImage {
     width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
 }
 
 .playlistItemLikesContainer {
     display: flex;
-    gap: .5em;
+    gap: 0.5em;
     align-items: center;
     /* width: 90px; */
     justify-content: flex-end;
@@ -169,7 +174,40 @@ header h1 {
     filter: invert(12%) sepia(55%) saturate(6619%) hue-rotate(350deg) brightness(91%) contrast(115%);
 }
 
-.playlistItemLikesCount, .playlistItemHeart {
+.playlistItemLikesCount,
+.playlistItemHeart {
     margin: 0px;
 }
 
+/* css for the add playlist button */
+#createNewPlaylistButton:hover {
+    background-color: rgb(162, 216, 237);
+}
+
+#createNewPlaylistButton:active {
+    background-color: rgb(199, 222, 231);
+}
+
+#addPlaylistImage {
+    aspect-ratio: 1 / 1;
+    background: lightgray;
+    border-radius: 100%;
+    width: 90%;
+    margin: auto;
+    transition: width 0.5s ease-out;
+}
+
+#createNewPlaylistButton:hover #addPlaylistImage {
+    width: 100%;
+}
+
+
+#addSongImage {
+    width: 100px;
+}
+#createNewSongButton{
+    justify-content: center;
+}
+#createNewSongButton  div:last-child{
+    margin: 0px;
+}

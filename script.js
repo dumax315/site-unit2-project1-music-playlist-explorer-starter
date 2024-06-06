@@ -11,6 +11,114 @@ console.log(supabase);
 // Hold the current userID (updated with auth later, used for the liked_users list)
 let userID = "local";
 
+// add playlist code
+// modal controls modified from https://developer.mozilla.org/en-US/docs/Web/CSS/:modal
+const createPlaylistModal = document.getElementById("createPlaylistModal");
+const outputBox = document.querySelector("output");
+
+// If a browser doesn't support the dialog, then hide the
+// dialog contents by default.
+if (typeof createPlaylistModal.showModal !== "function") {
+    createPlaylistModal.hidden = true;
+    // Your fallback script
+    alert("This website is not compatible with your browser");
+}
+
+// "Confirm" button of form triggers "close" on dialog because of [method="dialog"]
+createPlaylistModal.addEventListener("close", async () => {
+    // the return value is the value of the button pressed to close the modal
+    // either cancel or confirm
+
+    if (createPlaylistModal.returnValue === "confirm") {
+        const {
+            data: { user },
+        } = await supabase.auth.getUser();
+
+        let freshPlaylistData = {
+            playlist_name: document.getElementById("name").value,
+            playlist_art: document.getElementById("url").value,
+            liked_users: [],
+            songs: [],
+        };
+
+        if (user != null) {
+            freshPlaylistData.playlist_creator = user.email;
+            if (freshPlaylistData.liked_users.indexOf("local") != -1) {
+                freshPlaylistData.liked_users = [];
+                freshPlaylistData.liked_users.push(userID);
+            }
+
+            let isPublic = false;
+            if (document.getElementById("public").value === "on") {
+                isPublic = true;
+            }
+            const { returndata, error } = await supabase
+                .from("playlists")
+                .insert({ playlistData: freshPlaylistData, user_emails: [user.email], public: isPublic });
+            console.log(returndata, error);
+            if (error) {
+                alert(error);
+            }
+            playlistFromDatabase();
+
+        }else{
+            freshPlaylistData.playlist_creator = "local";
+            freshPlaylistData["playlistID"] = data.playlists.length*7+getRandomInt(0,7);
+            data.playlists.push(freshPlaylistData);
+            renderCurrentUser()
+        }
+
+    }
+});
+
+// add song code
+// modal controls modified from https://developer.mozilla.org/en-US/docs/Web/CSS/:modal
+const createSongModal = document.getElementById("createSongModal");
+
+// If a browser doesn't support the dialog, then hide the
+// dialog contents by default.
+if (typeof createSongModal.showModal !== "function") {
+    createSongModal.hidden = true;
+    // Your fallback script
+    alert("This website is not compatible with your browser");
+}
+
+// "Confirm" button of form triggers "close" on dialog because of [method="dialog"]
+createSongModal.addEventListener("close", async () => {
+    // the return value is the value of the button pressed to close the modal
+    // either cancel or confirm
+
+    if (createSongModal.returnValue === "confirm") {
+        const {
+            data: { user },
+        } = await supabase.auth.getUser();
+
+        console.log(playlistToOpen)
+        // TODO, check for id
+        playlistToOpen.songs.push({
+            "songID": playlistToOpen.songs.length*8+getRandomInt(0,8),
+            "title": document.getElementById("addSongName").value,
+            "artist": document.getElementById("addSongArtist").value,
+            "album": document.getElementById("addSongAlbum").value,
+            "cover_art": document.getElementById("addSongCoverArt").value,
+            "duration": document.getElementById("addSongDuration").value}
+        )
+
+        if (user != null) {
+            await dbUpdatePlaylist(playlistToOpen);
+
+
+            await playlistFromDatabase();
+            renderSongList(playlistToOpen)
+
+        }else{
+            renderCurrentUser()
+        }
+
+    }
+});
+
+
 /**
  * renderCurrentUser
  * To be called whenever the auth state changes, updates ui elements related to the current user
@@ -21,22 +129,22 @@ async function renderCurrentUser() {
     } = await supabase.auth.getUser();
     console.log(user);
     console.log("current user data above");
-    
+
     if (user == null) {
         document.getElementById("notLogedIn").style.display = "unset";
         document.getElementById("logedIn").style.display = "none";
+        document.getElementById("loadExampleDataButton").innerText = "Load example data from json"
     } else {
         userID = user.id;
         document.getElementById("notLogedIn").style.display = "none";
         document.getElementById("logedIn").style.display = "unset";
         document.getElementById("username").innerText = user.email;
+        document.getElementById("loadExampleDataButton").innerText = "Add self to example public playlists"
 
-        // playlistFromDatabase();
         
+        // playlistFromDatabase();
     }
     renderPlaylistList();
-
-    
 }
 
 /**
@@ -54,18 +162,23 @@ const { stateChange } = supabase.auth.onAuthStateChange((event, session) => {
         // const user = await supabase.auth.getUser();
         // Ask to recover data
         console.log(localStorage.getItem("data"));
-        if(localStorage.getItem("data") != "" && localStorage.getItem("data") != "{}" && localStorage.getItem("data") != '{"playlists":[]}'){
-            let shouldRecover = confirm("Local Data was found from a signed out session\nWhould you like to upload it to your account?");
-            if(shouldRecover){
+        if (
+            localStorage.getItem("data") != "" &&
+            localStorage.getItem("data") != "{}" &&
+            localStorage.getItem("data") != '{"playlists":[]}'
+        ) {
+            let shouldRecover = confirm(
+                "Local Data was found from a signed out session\nWhould you like to upload it to your account?"
+            );
+            if (shouldRecover) {
                 uploadLocalData(localStorage.getObject("data"));
             }
             localStorage.setItem("data", "");
         }
         playlistFromDatabase();
-        
     } else if (event === "SIGNED_OUT") {
         // handle sign out event
-        data = {playlists:[]};;
+        data = { playlists: [] };
         renderCurrentUser();
     } else if (event === "PASSWORD_RECOVERY") {
         // handle password recovery event
@@ -78,24 +191,24 @@ const { stateChange } = supabase.auth.onAuthStateChange((event, session) => {
 });
 
 //modified from https://stackoverflow.com/questions/2010892/how-to-store-objects-in-html5-localstorage-sessionstorage
-Storage.prototype.setObject = function(key, value) {
-    if(value != {} && value != null){
+Storage.prototype.setObject = function (key, value) {
+    if (value != {} && value != null) {
         this.setItem(key, JSON.stringify(value));
     }
-}
+};
 
-Storage.prototype.getObject = function(key) {
+Storage.prototype.getObject = function (key) {
     var value = this.getItem(key);
     return value && JSON.parse(value);
-}
+};
 
 /**
- * Attempts to sign in or create an avlnilkeduhijikheekgbrnlvuuglhkrgccount with github as the Oauth provider
+ * Attempts to sign in or create an account with github as the Oauth provider
  * will redirect
  */
 async function gitHubignIn() {
     //save any temporary data that was created to be revived after login
-    localStorage.setObject("data", data)
+    localStorage.setObject("data", data);
     const { responsedata, error } = await supabase.auth.signInWithOAuth({
         provider: "github",
     });
@@ -121,10 +234,8 @@ document.getElementById("signOut").addEventListener("click", () => {
     signOut();
 });
 
-
-
 // the Data varible Contains the local version the the playlist json
-let data = {playlists:[]};
+let data = { playlists: [] };
 
 // Grabs the playlistsContainer from the dom for use in renderPlaylistList
 const playlistsContainer = document.getElementById("playlistsContainer");
@@ -141,7 +252,7 @@ function encodeHTML(s) {
 
 // modified from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
 // min is inclusive and max is exclusive
-function getRandomInt(min, max) {
+function getRandomInt(min, max){
     return Math.floor(Math.random() * max - min) + min;
 }
 
@@ -194,11 +305,30 @@ function getPlaylistByID(playlistID) {
     return playlistFound;
 }
 
+const addSongButtonCode = `
+<li class="songlistItemContainer" id="createNewSongButton">
+<img id="addSongImage" draggable="false"  src="assets/img/plus-solid.svg">
+<div class="songlistItemTextContainer">
+    <h3 class="songlistItemTitle">Add a song</h3>
+
+</div>
+<div class="songlistItemLength"></div>
+</li>`;
+
+
 /**
  * renders the song list into the modal
  */
 function renderSongList(playlistToOpen) {
     const songlistContainer = document.getElementById("playlistListOfSongs");
+    songlistContainer.innerHTML = addSongButtonCode;
+    document.getElementById("createNewSongButton").addEventListener("click", () =>{
+        if (typeof createSongModal.showModal === "function") {
+            createSongModal.showModal();
+        } else {
+            outputBox.value = "Sorry, the dialog API is not supported by this browser.";
+        }
+    })
     playlistToOpen.songs.forEach((song) => {
         let songlistItem = document.createElement("li"); // Create a <li> element
         songlistItem.innerHTML = `
@@ -284,14 +414,32 @@ document.getElementById("shuffleSongsList").addEventListener("click", function (
     shuffleSongs();
 });
 
+const addPlaylistButtonCode = `
+<li class="playlistItem" id="createNewPlaylistButton">
+<img id="addPlaylistImage" draggable="false"  src="assets/img/plus-solid.svg">
+<h2>Create a new playlist</h2>
+</li>`;
+
 /**
  * creates the html for the plylists
  */
 function renderPlaylistList() {
-    playlistsContainer.innerHTML = "";
+    playlistsContainer.innerHTML = addPlaylistButtonCode;
+
+    // the first item in the grids opens the create playlist <dialog> modally
+    // This is in reference to // add playlist code
+    document.getElementById("createNewPlaylistButton").addEventListener("click", () => {
+        if (typeof createPlaylistModal.showModal === "function") {
+            createPlaylistModal.showModal();
+        } else {
+            outputBox.value = "Sorry, the dialog API is not supported by this browser.";
+        }
+    });
+
     // rendering the playlists
     data.playlists.forEach((playlist) => {
         const currentHeartPath = getHeartPath(playlist.liked_users);
+
 
         let playlistItem = document.createElement("li"); // Create a <li> element
         playlistItem.innerHTML = `
@@ -320,16 +468,18 @@ function renderPlaylistList() {
  */
 async function playlistJSON() {
     // get the playlist json data from a hosted file
-    if(userID!="local"){
+    if (userID != "local") {
+        const privacyConfirm = confirm("warning, joining public playlists could expose your email to other users");
+        if(!privacyConfirm){
+            return;
+        }
         addUserToPlaylist(1);
         addUserToPlaylist(5);
         addUserToPlaylist(7);
         addUserToPlaylist(6);
         addUserToPlaylist(100);
         addUserToPlaylist(2);
-
-
-    }else{
+    } else {
         const response = await fetch("/data/data.json");
         data = await response.json();
 
@@ -344,26 +494,23 @@ async function playlistJSON() {
 // load the example playlists from json
 document.getElementById("loadExampleDataButton").addEventListener("click", () => {
     playlistJSON();
-})
+});
 
 async function playlistFromDatabase() {
     const {
         data: { user },
     } = await supabase.auth.getUser();
     console.log(user.id);
-    const resobj = await supabase
-        .from('playlists')
-        .select('playlistData')
-        .contains('user_emails', [user.email])
-        // .eq('user_id', user.id)
+    const resobj = await supabase.from("playlists").select().contains("user_emails", [user.email]);
+    // .eq('user_id', user.id)
     console.log(resobj);
-    data = {playlists:[]};
+    data = { playlists: [] };
     resobj.data.forEach((dbplaylist) => {
+        dbplaylist.playlistData.playlistID= dbplaylist.id;
         data.playlists.push(dbplaylist.playlistData);
-    })
+    });
     console.log(data);
     renderCurrentUser();
-
 }
 
 /**
@@ -375,13 +522,13 @@ async function uploadLocalData(localData) {
     } = await supabase.auth.getUser();
     console.log(user);
     localData.playlists.forEach(async (playlist) => {
-        if(playlist.liked_users.indexOf("local") != -1){
+        if (playlist.liked_users.indexOf("local") != -1) {
             playlist.liked_users = [];
-            playlist.liked_users.push(userID)
+            playlist.liked_users.push(userID);
         }
-        const { returndata, error } = await supabase.from("playlists").upsert({id:playlist.playlistID, playlistData: playlist}).select();
-        console.log(returndata, error)
-    })
+        const { returndata, error } = await supabase.from("playlists").upsert({ playlistData: playlist, user_emails:[user.email] }).select();
+        console.log(returndata, error);
+    });
 }
 
 /**
@@ -389,23 +536,17 @@ async function uploadLocalData(localData) {
  * @param {number} playlistID
  */
 async function addUserToPlaylist(playlistID, userEmailtoAdd = null) {
-
-
-
-    if(userEmailtoAdd == null){
+    if (userEmailtoAdd == null) {
         const {
             data: { user },
         } = await supabase.auth.getUser();
         userEmailtoAdd = user.email;
     }
 
-    const resobj = await supabase
-        .from('playlists')
-        .select()
-        .eq('id', playlistID)
-        // .eq('user_id', user.id)
-    if(resobj.data[0].user_emails.indexOf(userEmailtoAdd) != -1){
-        console.log("email already present")
+    const resobj = await supabase.from("playlists").select().eq("id", playlistID);
+    // .eq('user_id', user.id)
+    if (resobj.data[0].user_emails.indexOf(userEmailtoAdd) != -1) {
+        console.log("email already present");
         return;
     }
     resobj.data[0].user_emails.push(userEmailtoAdd);
@@ -413,9 +554,13 @@ async function addUserToPlaylist(playlistID, userEmailtoAdd = null) {
 
     // const { returndata, error } = await supabase.from('playlists').select().eq('id', playlistID)
     // console.log(returndata, error)
-    
-    const { returndata2, error2 } = await supabase.from("playlists").update({user_emails: resobj.data[0].user_emails}).select().eq('id', playlistID);
-    console.log(returndata2, error2)
+
+    const { returndata2, error2 } = await supabase
+        .from("playlists")
+        .update({ user_emails: resobj.data[0].user_emails })
+        .select()
+        .eq("id", playlistID);
+    console.log(returndata2, error2);
 }
 
 /**
@@ -426,8 +571,11 @@ async function dbUpdatePlaylist(freshPlaylistData) {
         data: { user },
     } = await supabase.auth.getUser();
     console.log(user);
-    const { returndata, error } = await supabase.from("playlists").update({playlistData: freshPlaylistData}).eq('id', freshPlaylistData.playlistID);
-    console.log(returndata, error)
+    const { returndata, error } = await supabase
+        .from("playlists")
+        .update({ playlistData: freshPlaylistData })
+        .eq("id", freshPlaylistData.playlistID);
+    console.log(returndata, error);
 }
 
 /**
@@ -445,7 +593,7 @@ function likePlaylist(playlistID) {
         });
     }
     console.log(data);
-    dbUpdatePlaylist(curPlaylist)
+    dbUpdatePlaylist(curPlaylist);
 
     renderPlaylistList();
 }
