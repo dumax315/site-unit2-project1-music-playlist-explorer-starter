@@ -491,13 +491,13 @@ async function playlistJSON() {
         if(!privacyConfirm){
             return;
         }
-        addUserToPlaylist(1);
-        addUserToPlaylist(5);
-        addUserToPlaylist(7);
-        addUserToPlaylist(6);
-        addUserToPlaylist(100);
-        addUserToPlaylist(2);
-        playlistFromDatabase();
+        await addUserToPlaylist(1);
+        await addUserToPlaylist(5);
+        await addUserToPlaylist(7);
+        await addUserToPlaylist(6);
+        await addUserToPlaylist(100);
+        await addUserToPlaylist(2);
+        await playlistFromDatabase();
 
     } else {
         const response = await fetch("/data/data.json");
