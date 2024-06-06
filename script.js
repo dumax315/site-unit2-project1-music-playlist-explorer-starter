@@ -21,10 +21,12 @@ async function renderCurrentUser() {
     } = await supabase.auth.getUser();
     console.log(user);
     console.log("current user data above");
+    
     if (user == null) {
         document.getElementById("notLogedIn").style.display = "unset";
         document.getElementById("logedIn").style.display = "none";
     } else {
+        userID = user.id;
         document.getElementById("notLogedIn").style.display = "none";
         document.getElementById("logedIn").style.display = "unset";
         document.getElementById("username").innerText = user.email;
@@ -318,12 +320,23 @@ function renderPlaylistList() {
  */
 async function playlistJSON() {
     // get the playlist json data from a hosted file
-    const response = await fetch("/data/data.json");
-    data = await response.json();
+    if(userID!="local"){
+        addUserToPlaylist(1);
+        addUserToPlaylist(5);
+        addUserToPlaylist(7);
+        addUserToPlaylist(6);
+        addUserToPlaylist(100);
+        addUserToPlaylist(2);
 
-    if (!response.ok) {
-        const message = `An error has occured: ${response.status}`;
-        throw new Error(message);
+
+    }else{
+        const response = await fetch("/data/data.json");
+        data = await response.json();
+
+        if (!response.ok) {
+            const message = `An error has occured: ${response.status}`;
+            throw new Error(message);
+        }
     }
     renderPlaylistList();
 }
@@ -341,6 +354,7 @@ async function playlistFromDatabase() {
     const resobj = await supabase
         .from('playlists')
         .select('playlistData')
+        .contains('user_emails', [user.email])
         // .eq('user_id', user.id)
     console.log(resobj);
     data = {playlists:[]};
@@ -361,20 +375,58 @@ async function uploadLocalData(localData) {
     } = await supabase.auth.getUser();
     console.log(user);
     localData.playlists.forEach(async (playlist) => {
+        if(playlist.liked_users.indexOf("local") != -1){
+            playlist.liked_users = [];
+            playlist.liked_users.push(userID)
+        }
         const { returndata, error } = await supabase.from("playlists").upsert({id:playlist.playlistID, playlistData: playlist}).select();
         console.log(returndata, error)
     })
 }
 
 /**
+ * add user to user_emails array
+ * @param {number} playlistID
+ */
+async function addUserToPlaylist(playlistID, userEmailtoAdd = null) {
+
+
+
+    if(userEmailtoAdd == null){
+        const {
+            data: { user },
+        } = await supabase.auth.getUser();
+        userEmailtoAdd = user.email;
+    }
+
+    const resobj = await supabase
+        .from('playlists')
+        .select()
+        .eq('id', playlistID)
+        // .eq('user_id', user.id)
+    if(resobj.data[0].user_emails.indexOf(userEmailtoAdd) != -1){
+        console.log("email already present")
+        return;
+    }
+    resobj.data[0].user_emails.push(userEmailtoAdd);
+    console.log(resobj.data[0].user_emails);
+
+    // const { returndata, error } = await supabase.from('playlists').select().eq('id', playlistID)
+    // console.log(returndata, error)
+    
+    const { returndata2, error2 } = await supabase.from("playlists").update({user_emails: resobj.data[0].user_emails}).select().eq('id', playlistID);
+    console.log(returndata2, error2)
+}
+
+/**
  * updates 1 playlist currenlty stored locally
  */
-async function updatePlaylist(freshPlaylistData) {
+async function dbUpdatePlaylist(freshPlaylistData) {
     const {
         data: { user },
     } = await supabase.auth.getUser();
     console.log(user);
-    const { returndata, error } = await supabase.from("playlists").update({playlistData: freshPlaylistData}).eq('id', freshPlaylistData.playlistID,);
+    const { returndata, error } = await supabase.from("playlists").update({playlistData: freshPlaylistData}).eq('id', freshPlaylistData.playlistID);
     console.log(returndata, error)
 }
 
@@ -393,7 +445,7 @@ function likePlaylist(playlistID) {
         });
     }
     console.log(data);
-    updatePlaylist(curPlaylist)
+    dbUpdatePlaylist(curPlaylist)
 
     renderPlaylistList();
 }

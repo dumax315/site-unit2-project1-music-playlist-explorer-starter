@@ -12,6 +12,7 @@ retrieve json firebase 2.5 hours    started 4:39
 **Sorting Options**
 sharing (idealy with a table of playlists that allows usage based on a list)
 song search for quick add
+change text on the defualt button based on it's current function
 
 
 📝 `NOTE` Use this template to initialize the contents of a README.md file for your application. As you work on your assignment over the course of the week, update the required or stretch features lists to indicate which features you have completed by changing `[ ]` to `[x]`. (🚫 Remove this paragraph before submitting your assignment.)
