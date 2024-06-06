@@ -217,6 +217,9 @@ async function gitHubignIn() {
     localStorage.setObject("data", data);
     const { responsedata, error } = await supabase.auth.signInWithOAuth({
         provider: "github",
+        options: {
+            redirectTo: 'https://site-unit2-project1-music-playlist-explorer-starter-i7szdrg4f.vercel.app/',
+        },
     });
     // I'm not sure if this is ever called or if the redirect blocks it
     renderCurrentUser();

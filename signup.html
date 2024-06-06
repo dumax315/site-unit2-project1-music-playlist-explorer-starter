@@ -28,6 +28,7 @@
 
         <main>
             <h2>Sign Up with email and password</h2>
+            <p>you will need to varify your email</p>
             <form
                 action=""
                 id="signupForm"
@@ -109,11 +110,15 @@
                     const { data, error } = await supabase.auth.signUp({
                         email: email.value,
                         password: password.value,
+
                     })
                     if(error){
                         alert(error);
 
                     }
+                    alert("check your email")
+                    window.location.href = "/";
+
                 }
             });
         </script>
