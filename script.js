@@ -112,7 +112,9 @@ createSongModal.addEventListener("close", async () => {
             renderSongList(playlistToOpen)
 
         }else{
-            renderCurrentUser()
+            await renderCurrentUser()
+            renderSongList(playlistToOpen)
+
         }
 
     }
@@ -156,11 +158,6 @@ const { stateChange } = supabase.auth.onAuthStateChange((event, session) => {
 
     if (event === "INITIAL_SESSION") {
         // handle initial session
-        renderCurrentUser();
-    } else if (event === "SIGNED_IN") {
-        // handle sign in event
-        // const user = await supabase.auth.getUser();
-        // Ask to recover data
         console.log(localStorage.getItem("data"));
         if (
             localStorage.getItem("data") != "" &&
@@ -176,6 +173,12 @@ const { stateChange } = supabase.auth.onAuthStateChange((event, session) => {
             localStorage.setItem("data", "");
         }
         playlistFromDatabase();
+        renderCurrentUser();
+    } else if (event === "SIGNED_IN") {
+        // handle sign in event
+        // const user = await supabase.auth.getUser();
+        // Ask to recover data
+
     } else if (event === "SIGNED_OUT") {
         // handle sign out event
         data = { playlists: [] };
@@ -215,6 +218,14 @@ async function gitHubignIn() {
     // I'm not sure if this is ever called or if the redirect blocks it
     renderCurrentUser();
 }
+
+addEventListener("beforeunload", (event) => {
+
+    if(userID == "local"){
+        localStorage.setObject("data", data);
+    }
+});
+
 
 /**
  * Signs out the current auth user, doesn't redirect
@@ -522,6 +533,9 @@ async function uploadLocalData(localData) {
         data: { user },
     } = await supabase.auth.getUser();
     console.log(user);
+    if(user == null){
+        data = localData
+    }else{
     localData.playlists.forEach(async (playlist) => {
         if (playlist.liked_users.indexOf("local") != -1) {
             playlist.liked_users = [];
@@ -530,6 +544,7 @@ async function uploadLocalData(localData) {
         const { returndata, error } = await supabase.from("playlists").upsert({ playlistData: playlist, user_emails:[user.email] }).select();
         console.log(returndata, error);
     });
+}
 }
 
 /**
