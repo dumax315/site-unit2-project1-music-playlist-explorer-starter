@@ -16,6 +16,7 @@ let userID = "local";
 const createPlaylistModal = document.getElementById("createPlaylistModal");
 const outputBox = document.querySelector("output");
 
+
 // If a browser doesn't support the dialog, then hide the
 // dialog contents by default.
 if (typeof createPlaylistModal.showModal !== "function") {
@@ -28,6 +29,7 @@ if (typeof createPlaylistModal.showModal !== "function") {
 createPlaylistModal.addEventListener("close", async () => {
     // the return value is the value of the button pressed to close the modal
     // either cancel or confirm
+    
 
     if (createPlaylistModal.returnValue === "confirm") {
         const {
@@ -172,12 +174,13 @@ const { stateChange } = supabase.auth.onAuthStateChange((event, session) => {
             }
             localStorage.setItem("data", "");
         }
-        playlistFromDatabase();
         renderCurrentUser();
     } else if (event === "SIGNED_IN") {
         // handle sign in event
         // const user = await supabase.auth.getUser();
         // Ask to recover data
+        playlistFromDatabase();
+        renderCurrentUser();
 
     } else if (event === "SIGNED_OUT") {
         // handle sign out event
