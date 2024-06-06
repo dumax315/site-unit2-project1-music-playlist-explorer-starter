@@ -1,12 +1,18 @@
 TASKs TO BE DONE
-comment all functions    1->2 hours started 3:41  
+comment all functions    1->2 hours started       finished 4:30
 connect to firebase auth 3 hours    started 1pm   finished 339 pm
 imploment a unified color pallet    2 hour  not started
+
+retrieve json firebase 2.5 hours    started 4:39
+
 **Add New Playlists**
 **Edit Existing Playlists**
 **Delete Playlists**
 **Search Functionality**
 **Sorting Options**
+sharing (idealy with a table of playlists that allows usage based on a list)
+song search for quick add
+
 
 📝 `NOTE` Use this template to initialize the contents of a README.md file for your application. As you work on your assignment over the course of the week, update the required or stretch features lists to indicate which features you have completed by changing `[ ]` to `[x]`. (🚫 Remove this paragraph before submitting your assignment.)
 
