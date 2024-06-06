@@ -497,6 +497,8 @@ async function playlistJSON() {
         addUserToPlaylist(6);
         addUserToPlaylist(100);
         addUserToPlaylist(2);
+        playlistFromDatabase();
+
     } else {
         const response = await fetch("/data/data.json");
         data = await response.json();
