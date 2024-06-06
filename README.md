@@ -1,34 +1,34 @@
 TASKs TO BE DONE
 | task | time estimate | started|finished|
 |----|----|----|----|
-|comment all functions | 1->2 hours |started | finished 4:30|
-|connect to firebase auth |3 hours | started 1pm | finished 339 pm|
-|imploment a unified color pallet | 2 hour | not started|
-|
-|retrieve json firebase | 2.5 hours | started 4:39|
-|
-|**Add New Playlists** | 2 hours | started 8:21 am| finished 11:27|
-|**Edit Existing Playlists** |  
-| add song | 1 hour| finsihed 12:51
-| delete song| 
-|**Delete Playlists**|
-|**Search Functionality**|
-|**Sorting Options**|
-|sharing (idealy with a table of playlists that allows usage based on a list) |
-| because I'm not sure how to do auth rules based on the array of users I'm not sure how to share without making public|
-|song search for quick add|
-| spotify integration or the like |
-|set up CI with the github (try vercel first)|
-|change text on the defualt button based on it's current function | 20 min | started 11:40 | finished 11:50 |
-|retool has local data is uploaded with respect to ids ||| finished 11:40
-|write a report/section on the privazy measures and implimacations
-|refactor the code base into multiple files
-|polish and integrate login and signup pages (maybe combine into one)
-|credit font awsome in the footer
-|lower the amount of rerender of the playlistlists
-|fix open playlist modal heading
-|more hover and active effects
-|make all the db stuff a class in a differnt js file
+|comment all functions | 1->2 hours |started | finished 4:30||||||||||
+|connect to firebase auth |3 hours | started 1pm | finished 339 pm||||||||||
+|imploment a unified color pallet | 2 hour | not started||||||||||
+||||||||||
+|retrieve json firebase | 2.5 hours | started 4:39||||||||||
+||||||||||
+|**Add New Playlists** | 2 hours | started 8:21 am| finished 11:27||||||||||
+|**Edit Existing Playlists** |  |||||||||
+| add song | 1 hour| finsihed 12:51|||||||||
+| delete song| |||||||||||
+|**Delete Playlists**||||||||||
+|**Search Functionality**||||||||||
+|**Sorting Options**||||||||||
+|sharing (idealy with a table of playlists that allows usage based on a list) ||||||||||
+| because I'm not sure how to do auth rules based on the array of users I'm not sure how to share without making public||||||||||||||
+|song search for quick add|||||
+| spotify integration or the like |||||
+|set up CI with the github (try vercel first)|||||
+|change text on the defualt button based on it's current function | 20 min | started 11:40 | finished 11:50 |||||
+|retool has local data is uploaded with respect to ids ||| finished 11:40||||
+|write a report/section on the privazy measures and implimacations||||
+|refactor the code base into multiple files||||
+|polish and integrate login and signup pages (maybe combine into one)||||
+|credit font awsome in the footer||||
+|lower the amount of rerender of the playlistlists||||
+|fix open playlist modal heading||||
+|more hover and active effects||||
+|make all the db stuff a class in a differnt js file||||
 
 📝 `NOTE` Use this template to initialize the contents of a README.md file for your application. As you work on your assignment over the course of the week, update the required or stretch features lists to indicate which features you have completed by changing `[ ]` to `[x]`. (🚫 Remove this paragraph before submitting your assignment.)
 
