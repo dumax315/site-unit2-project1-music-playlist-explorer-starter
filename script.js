@@ -47,6 +47,8 @@ createPlaylistModal.addEventListener("close", async () => {
                 freshPlaylistData.liked_users.push(userID);
             }
 
+            delete freshPlaylistData.playlistID;
+
             let isPublic = false;
             if (document.getElementById("public").value === "on") {
                 isPublic = true;
