@@ -1,7 +1,7 @@
 // In a project with react or webpack (etc) this would be replaced with the supabase npm package
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
-const isLocal = false;
+const isLocal = true;
 
 // idea for the asyc constumnet  from https://dev.to/somedood/the-proper-way-to-write-async-constructors-in-javascript-1o8c
 
@@ -15,7 +15,7 @@ export class Auth {
             );
         } else {
             supabase = await createClient(
-                "https://zkjmdhhvcxwjgjsryyow.supabase.coo",
+                "https://zkjmdhhvcxwjgjsryyow.supabase.co",
                 "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1naHh2dndkZHZzaGR2emtnaGpiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTc3MDYxNDYsImV4cCI6MjAzMzI4MjE0Nn0.PGQPVzRRG49OhWdfyNYjptSV0rrw0AyKNmb5BtQaDks"
             );
         }
