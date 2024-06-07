@@ -1,46 +1,10 @@
-TASKs TO BE DONE
-| task | time estimate | started|finished|
-|----|----|----|----|
-|comment all functions | 1->2 hours |started | finished 4:30||||||||||
-|connect to firebase auth |3 hours | started 1pm | finished 339 pm||||||||||
-|imploment a unified color pallet | 2 hour | not started||||||||||
-|create a featured public playlist page with add button | 2 hours ||||
-|retrieve json firebase | 2.5 hours | started 4:39||||||||||
-| make a featured page||||
-||||||||||
-|**Add New Playlists** | 2 hours | started 8:21 am| finished 11:27||||||||||
-|**Edit Existing Playlists** |  |||||||||
-| add song | 1 hour| finsihed 12:51|||||||||
-| delete song| |||||||||||
-|**Delete Playlists**||||||||||
-|**Search Functionality**||||||||||
-|**Sorting Options**||||||||||
-|sharing (idealy with a table of playlists that allows usage based on a list) ||||||||||
-| because I'm not sure how to do auth rules based on the array of users I'm not sure how to share without making public||||||||||||||
-|song search for quick add|||||
-| spotify integration or the like |||||
-|set up CI with the github (try vercel first)|||||
-|change text on the defualt button based on it's current function | 20 min | started 11:40 | finished 11:50 |||||
-|retool has local data is uploaded with respect to ids ||| finished 11:40||||
-|write a report/section on the privazy measures and implimacations||||
-|refactor the code base into multiple files|1.5 hours|started 3:55||
-|polish and integrate login and signup pages (maybe combine into one)||||
-|credit font awsome in the footer||||
-|lower the amount of rerender of the playlistlists||||
-|fix open playlist modal heading||||
-|more hover and active effects||||
-|make all the db stuff a class in a differnt js file||||
-|get hearted playlists first||||
-
-📝 `NOTE` Use this template to initialize the contents of a README.md file for your application. As you work on your assignment over the course of the week, update the required or stretch features lists to indicate which features you have completed by changing `[ ]` to `[x]`. (🚫 Remove this paragraph before submitting your assignment.)
-
 ## Unit 2 Assignment: Music Playlist Explorer
 
 Submitted by: **Theo Halpern**
 
 Estimated time spent: **#** hours spent in total
 
-Deployed Application (optional): [Music Playlist Explorer Deployed Site](ADD_LINK_HERE)
+Deployed Application (optional): [Music Playlist Explorer Deployed Site](https://site-unit2-project1-music-playlis-git-beb954-dumax315s-projects.vercel.app/)
 
 ### Application Features
 
@@ -68,10 +32,10 @@ Deployed Application (optional): [Music Playlist Explorer Deployed Site](ADD_LIN
 
 #### STRETCH FEATURES
 
--   [ ] **Add New Playlists**
+-   [x] **Add New Playlists**
 
-    -   [ ] Allow users to create new playlists.
-    -   [ ] Users can input playlist name, creator, and add multiple songs with details like title, artist, and duration.
+    -   [x] Allow users to create new playlists.
+    -   [x] Users can input playlist name, creator, and add multiple songs with details like title, artist, and duration.
 
 -   [ ] **Edit Existing Playlists**
 
@@ -114,7 +78,44 @@ Add your response here
 ### Open-source libraries used
 
 -   Add any links to open-source libraries used in your project.
+-   Font Awesome
+-   Supabase
 
 ### Shout out
 
 Give a shout out to somebody from your cohort that especially helped you during your project. This can be a fellow peer, instructor, TA, mentor, etc.
+
+## TASK tracker
+
+| task                                                                         | time estimate | started         | finished               |
+| ---------------------------------------------------------------------------- | ------------- | --------------- | ---------------------- |
+| comment all functions                                                        | 1->2 hours    | started         | finished 4:30          |
+| connect to firebase auth                                                     | 3 hours       | started 1pm     | finished 339 pm        |
+| imploment a unified color pallet                                             | 2 hour        | not started     |                        |
+| create a featured public playlist page                                       | 2 hours       |                 | finsished 6/6          |
+| --with add button                                                            | 1 hour        |                 |                        |
+| retrieve json firebase                                                       | 2.5 hours     | started 4:39    | finished 6/6           |
+| make a featured page                                                         |               |                 | finsihed afternoon 6/6 |
+| **Add New Playlists**                                                        | 2 hours       | started 8:21 am | finished 11:27 6/6     |
+| **Edit Existing Playlists**                                                  |               |                 |                        |
+| add song                                                                     | 1 hour        |                 | finsihed 12:51 6/6     |
+| delete song                                                                  |               |                 |                        |
+| **Delete Playlists**                                                         |               |                 |                        |
+| **Search Functionality**                                                     |               |                 |                        |
+| **Sorting Options**                                                          |               |                 |                        |
+| sharing (idealy with a table of playlists that allows usage based on a list) |               |                 |                        |
+| song search for quick add                                                    |               |                 |                        |
+| spotify integration or the like                                              |               |                 |                        |
+| set up CI with the github (try vercel first)                                 |               |                 |                        |
+| change text on the defualt button based on it's current function             | 20 min        | started 11:40   | finished 11:50         |
+| retool has local data is uploaded with respect to ids                        |               |                 | finished 11:40         |
+| write a report/section on the privazy measures and implimacations            |               |                 |                        |
+| refactor the code base into multiple files                                   | 1.5 hours     | started 3:55    |                        |
+| polish and integrate login and signup pages (maybe combine into one)         |               |                 |                        |
+| credit font awsome in the footer                                             |               |                 |                        |
+| lower the amount of rerender of the playlistlists                            |               |                 |                        |
+| fix open playlist modal heading                                              |               |                 |                        |
+| more hover and active effects                                                |               |                 |                        |
+| make all the db stuff a class in a differnt js file                          |               |                 |                        |
+| get hearted playlists first                                                  |               |                 |                        |
+| fix the nav bar                                                              |               |                 |
