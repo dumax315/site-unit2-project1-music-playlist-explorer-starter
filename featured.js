@@ -46,6 +46,24 @@ async function renderFeaturedPlaylistList() {
     data.playlists.sort(sortingFunctions[sortTypeIndex]);
     console.log(data.playlists)
 
+    // Render the featchered playlist
+    const randomPlaylistIndex = Math.floor(Math.random() * data.playlists.length);
+    document.getElementById("randomFeaturedPlaylistImage").src = data.playlists[randomPlaylistIndex].playlist_art;
+    document.getElementById("randomFeaturedPlaylistTitle").innerText = data.playlists[randomPlaylistIndex].playlist_name;
+    document.getElementById("randomFeaturedPlaylistCreator").innerText = data.playlists[randomPlaylistIndex].playlist_creator;
+    document.getElementById("randomFeaturedPlaylistLikesCount").innerText = data.playlists[randomPlaylistIndex].liked_users.length;
+    const randomFeaturedHeartPath = auth.getHeartPath(data.playlists[randomPlaylistIndex].liked_users, user.email);
+    document.getElementById("randomFeaturedPlaylistItemHeart").src = randomFeaturedHeartPath;
+
+    document.getElementById("randomFeaturedPlaylistLikeContainer").addEventListener("click", function (e) {
+        if (e && e.stopPropagation) e.stopPropagation();
+        likePlaylist(data.playlists[randomPlaylistIndex].playlistID);
+    });
+
+    // "randomFeaturedSongsContainer"
+    renderRandomSongList(data.playlists[randomPlaylistIndex]);
+
+
     playlistsContainer.innerHTML = "";
     // rendering the playlists
     data.playlists.forEach((playlist) => {
@@ -193,6 +211,29 @@ window.onclick = function (event) {
  */
 function renderSongList(playlistToOpen) {
     const songlistContainer = document.getElementById("playlistListOfSongs");
+    songlistContainer.innerHTML = "";
+
+    playlistToOpen.songs.forEach((song) => {
+        let songlistItem = document.createElement("li"); // Create a <li> element
+        songlistItem.innerHTML = `
+            <img class="songlistItemImg" src="${auth.encodeHTML(song.cover_art)}">
+            <div class="songlistItemTextContainer">
+                <h3 class="songlistItemTitle">${auth.encodeHTML(song.title)}</h3>
+                <div class="songlistItemArtist">${auth.encodeHTML(song.artist)}</div>
+                <div class="songlistItemArtist">${auth.encodeHTML(song.album)}</div>
+            </div>
+            <div class="songlistItemLength">${auth.encodeHTML(song.duration)}</div>`;
+        songlistItem.classList.add("songlistItemContainer");
+        songlistContainer.appendChild(songlistItem); // Add <li> to the <ul>
+    });
+}
+
+/**
+ * renders the song list into the modal
+ * @param {object} playlistToOpen
+ */
+function renderRandomSongList(playlistToOpen) {
+    const songlistContainer = document.getElementById("randomFeaturedSongsContainer");
     songlistContainer.innerHTML = "";
 
     playlistToOpen.songs.forEach((song) => {

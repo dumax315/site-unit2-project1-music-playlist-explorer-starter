@@ -9,33 +9,20 @@
     <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
 
     <link rel="stylesheet" href="style.css">
-    <!-- <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> -->
     
 </head>
 
 <body>
     <header>
         <!-- Your header content here -->
-        <h1>Music PlayList Explorer</h1>
-        
-
+        <h1>Featured Public Playlists</h1>
 
     </header>
     <nav>
         <div id="userInfoAndButtons">
             <div>
-                <select name="sortSelecter" id="sortSelecter">
-                    <option value="0">Most Likes</option>
-                    <option value="1">Least Likes</option>
-                    <option value="2">Title A-Z</option>
-                    <option value="3">Title Z-A</option>
-                    <option value="4">Oldest</option>
-                    <option value="5">Newest</option>
-                    <option value="4">Creator A-Z</option>
-                    <option value="5">Creator Z-A</option>
-                  </select>
-                <a href="/featured.html">Featured</a>
-                <button id="loadExampleDataButton">Load example data</button>
+                <a href="/myPlaylists.html">My Playlists</a>
+                
             </div>
             <div id="notLogedIn">
                 <button id="githubSignUp">Sign In/Up with Github</button>
@@ -50,13 +37,16 @@
             
 
         </div>
-        
     </nav>
 
     <!-- Modal Structure -->
+    
     <div id="playlistModal" class="modal">
+
         <div class="modal-content">
+            
             <span id="modalClose">&times;</span>
+            
             <div class="modalFlex">
                 <img id="playlistModalImage" src="" alt="playlist Image">
                 <div class="modalVertFlex">
@@ -64,8 +54,7 @@
                     <h2 id="playlistModalName"></h2>
 
                     <p id="playlistModalCreatorName"></p>
-                    <button id="editPlaylistButton">Edit Playlist Details</button>
-                    <button id="deletePlaylistButton">Delete Playlist</button>
+                    <button id="joinPublicPlaylistButton">Join This Public Playlist</button>
                     <button id="shuffleSongsList">Shuffle</button>
 
                 </div>
@@ -81,128 +70,49 @@
         </div>
     </div>
 
-    <!-- create playlist modal -->
-    <!-- code modified from https://developer.mozilla.org/en-US/docs/Web/CSS/:modal -->
-    <dialog id="createPlaylistModal">
-        <form method="dialog">
-            <h2>Create a new playlist</h2>
-            <p>
-                <div>
-                    <input type="text" id="name" name="name"  />
-                    <label for="name">Playlist name</label>
-                </div>
-                <div>
-                    <input type="url" name="url" id="url" placeholder="https://example.com" pattern="https://.*" />
-                    <label for="url">Enter an image url</label>
-                </div>
-                <div>
-                    <input type="checkbox" id="public" name="public" />
-                    <label for="public">Public (only public playlists can be shared but being in a public playlist exposes your email address)</label>
-                </div>
-            </p>
-            <div>
-                <button value="cancel">Cancel</button>
-                <button id="confirmBtn" value="confirm">Confirm</button>
-            </div>
-        </form>
-    </dialog>
-
-
-    <!-- create playlist modal -->
-    <!-- code modified from https://developer.mozilla.org/en-US/docs/Web/CSS/:modal -->
-    <dialog id="editPlaylistModal">
-        <form method="dialog">
-            <h2>Edit <span id="editPlaylistNameDisplay"></span></h2>
-            <p>
-                <div>
-                    <input type="text" id="editPlaylistName" name="edit Playlist Name"  />
-                    <label for="editPlaylistName">Edit playlist name</label>
-                </div>
-                <div>
-                    <input type="url" name="editPlaylistUrl" id="editPlaylistUrl" placeholder="https://example.com" pattern="https://.*" />
-                    <label for="editPlaylistUrl">Enter an image url</label>
-                </div>
-                <div>
-                    <input type="checkbox" id="editPlaylistPublic" name="editPlaylistPublic" />
-                    <label for="editPlaylistPublic">Public (being in a public playlist exposes your email address, the box value is not reflective of the current state)</label>
-                </div>
-                <input type="hidden" id="editPlaylistID" name="editPlaylistID" >
-            </p>
-            <div>
-                <button value="cancel">Cancel</button>
-                <button id="confirmBtn" value="confirm">Confirm</button>
-            </div>
-        </form>
-    </dialog>
-
-    <!-- "songID": playlistToOpen.songs.length*8+getRandomInt(0,8),
-            "title": document.getElementById("addSongName").value,
-            "artist": document.getElementById("addSongArtist").value,
-            "album": document.getElementById("addSongAlbum").value,
-            "cover_art": document.getElementById("addSongCoverArt").value,
-            "duration": document.getElementById("addSongDuration").value -->
-        <dialog id="createSongModal">
-            <form method="dialog">
-                <h2>Add a new song</h2>
-                <p>
-                    Search+autofill comming soon
-                    <div>
-                        <input type="text" id="addSongName" name="addSongName"  />
-                        <label for="addSongName">Song name</label>
-                    </div>
-                    <div>
-                        <input type="url" name="addSongCoverArt" id="addSongCoverArt" placeholder="https://example.com" pattern="https://.*" />
-                        <label for="addSongCoverArt">Song art</label>
-                    </div>
-                    <div>
-                        <input type="text" id="addSongAlbum" name="addSongAlbum"  />
-                        <label for="addSongAlbum">Song album name</label>
-                    </div>
-                    <div>
-                        <input type="text" id="addSongArtist" name="addSongArtist"  />
-                        <label for="addSongArtist">Song artist name</label>
-                    </div>
-                    <div>
-                        <input type="text" id="addSongDuration" name="addSongDuration"  />
-                        <label for="addSongDuration">Song song duration</label>
-                    </div>
-                    
-                </p>
-                <div>
-                    <button value="cancel">Cancel</button>
-                    <button id="confirmBtn" value="confirm">Confirm</button>
-                </div>
-            </form>
-        </dialog>
-
     <main>
-
         
-        <!-- Your main content here -->
-        <ul id="playlistsContainer" class="playlistCards">
-
-            <!-- <li class="playlistItem"
-                onclick="openModal(0)">
-                <img class="playlistItemImage" src="assets/img/playlist.png" alt="playlist Image"></img>
-                <h3 class="playlistItemTitle">Playlist Title</h3>
-                <p class="playlistItemCreatorName">Creator Name</p>
-                <div class="playlistItemLikesContainer">
-                    <img class="playlistItemHeart" src="assets/img/heart-regular.svg" >
-                    <div class="playlistItemLikesCount">5</div>
+        <h2>Here is a random featured playlist</h2>
+        <div id=""></div>
+        <div id="randomFeaturedPlaylistContainer">
+            
+            <img id="randomFeaturedPlaylistImage" class="playlistItem playlistItemImage"  alt="playlist Image">
+            <div id="randomFeaturedPlaylistItem" class="playlistItem featuredPlaylistItem">
+                <h3 id="randomFeaturedPlaylistTitle" class="playlistItemTitle"></h3>
+                <p id="randomFeaturedPlaylistCreator" class="playlistItemCreatorName"></p>
+                <div id="randomFeaturedPlaylistLikeContainer" class="playlistItemLikesContainer">
+                    <img id="randomFeaturedPlaylistItemHeart" class="playlistItemHeart" src="assets/img/heart-regular.svg">
+                    <div id="randomFeaturedPlaylistLikesCount" class="playlistItemLikesCount"></div>
                 </div>
-            </li> -->
+                <div id="randomFeaturedSongsContainer">
+                    
+                </div>
+            </div>
 
+        </div>
+        <div>
+            <h2>Here are some other public playlists</h2>
+        <select name="sortSelecter" id="sortSelecter">
+            <option value="0">Most Likes</option>
+            <option value="1">Least Likes</option>
+            <option value="2">Title A-Z</option>
+            <option value="3">Title Z-A</option>
+            <option value="4">Oldest</option>
+            <option value="5">Newest</option>
+            <option value="4">Creator A-Z</option>
+            <option value="5">Creator Z-A</option>
+          </select>
+        </div>
+        <ul id="featuredPlaylistsContainer" class="playlistCards">
 
         </ul>
     </main>
 
     <footer>
-        <!-- Your footer content here -->
-    </footer>
-    <!-- <script src="data/data.js"></script> -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> -->
 
-    <script type="module" src="script.js"></script>
+    </footer>
+
+    <script type="module" src="featured.js"></script>
 </body>
 
 </html>
