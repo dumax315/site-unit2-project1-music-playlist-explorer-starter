@@ -1,12 +1,7 @@
-// In a project with react or webpack (etc) this would be replaced with the supabase npm package
-import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+import { Auth } from "./auth.js";
 
-// Generates a supabase client connection
-const supabase = createClient(
-    "https://zkjmdhhvcxwjgjsryyow.supabase.co",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpram1kaGh2Y3h3amdqc3J5eW93Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTc2MjAxMjQsImV4cCI6MjAzMzE5NjEyNH0.M3aEkryg17fMtWrC1hKigqovebKhSOz5P4Y1Pd17ug4"
-);
-console.log(supabase);
+const auth = await Auth.setUpAuth();
+
 
 // Hold the current userID (updated with auth later, used for the liked_users list)
 let userID = "local";
@@ -15,7 +10,6 @@ let userID = "local";
 // modal controls modified from https://developer.mozilla.org/en-US/docs/Web/CSS/:modal
 const createPlaylistModal = document.getElementById("createPlaylistModal");
 const outputBox = document.querySelector("output");
-
 
 // If a browser doesn't support the dialog, then hide the
 // dialog contents by default.
@@ -29,12 +23,9 @@ if (typeof createPlaylistModal.showModal !== "function") {
 createPlaylistModal.addEventListener("close", async () => {
     // the return value is the value of the button pressed to close the modal
     // either cancel or confirm
-    
 
     if (createPlaylistModal.returnValue === "confirm") {
-        const {
-            data: { user },
-        } = await supabase.auth.getUser();
+        const user = await auth.getUser();
 
         let freshPlaylistData = {
             playlist_name: document.getElementById("name").value,
@@ -54,7 +45,7 @@ createPlaylistModal.addEventListener("close", async () => {
             if (document.getElementById("public").value === "on") {
                 isPublic = true;
             }
-            const { returndata, error } = await supabase
+            const { returndata, error } = await auth.supabase
                 .from("playlists")
                 .insert({ playlistData: freshPlaylistData, user_emails: [user.email], public: isPublic });
             console.log(returndata, error);
@@ -62,14 +53,12 @@ createPlaylistModal.addEventListener("close", async () => {
                 alert(error);
             }
             playlistFromDatabase();
-
-        }else{
+        } else {
             freshPlaylistData.playlist_creator = "local";
-            freshPlaylistData["playlistID"] = data.playlists.length*7+getRandomInt(0,7);
+            freshPlaylistData["playlistID"] = data.playlists.length * 7 + getRandomInt(0, 7);
             data.playlists.push(freshPlaylistData);
-            renderCurrentUser()
+            renderCurrentUser();
         }
-
     }
 });
 
@@ -91,61 +80,51 @@ createSongModal.addEventListener("close", async () => {
     // either cancel or confirm
 
     if (createSongModal.returnValue === "confirm") {
-        const {
-            data: { user },
-        } = await supabase.auth.getUser();
+        const user = await auth.getUser();
 
-        console.log(playlistToOpen)
+        console.log(playlistToOpen);
         // TODO, check for id
         playlistToOpen.songs.push({
-            "songID": playlistToOpen.songs.length*8+getRandomInt(0,8),
-            "title": document.getElementById("addSongName").value,
-            "artist": document.getElementById("addSongArtist").value,
-            "album": document.getElementById("addSongAlbum").value,
-            "cover_art": document.getElementById("addSongCoverArt").value,
-            "duration": document.getElementById("addSongDuration").value}
-        )
+            songID: playlistToOpen.songs.length * 8 + getRandomInt(0, 8),
+            title: document.getElementById("addSongName").value,
+            artist: document.getElementById("addSongArtist").value,
+            album: document.getElementById("addSongAlbum").value,
+            cover_art: document.getElementById("addSongCoverArt").value,
+            duration: document.getElementById("addSongDuration").value,
+        });
 
         if (user != null) {
-            await dbUpdatePlaylist(playlistToOpen);
-
+            await auth.dbUpdatePlaylist(playlistToOpen);
 
             await playlistFromDatabase();
-            renderSongList(playlistToOpen)
-
-        }else{
-            await renderCurrentUser()
-            renderSongList(playlistToOpen)
-
+            renderSongList(playlistToOpen);
+        } else {
+            await renderCurrentUser();
+            renderSongList(playlistToOpen);
         }
-
     }
 });
-
 
 /**
  * renderCurrentUser
  * To be called whenever the auth state changes, updates ui elements related to the current user
  */
 async function renderCurrentUser() {
-    const {
-        data: { user },
-    } = await supabase.auth.getUser();
+    const user = await auth.getUser();
     console.log(user);
     console.log("current user data above");
 
     if (user == null) {
         document.getElementById("notLogedIn").style.display = "unset";
         document.getElementById("logedIn").style.display = "none";
-        document.getElementById("loadExampleDataButton").innerText = "Load example data from json"
+        document.getElementById("loadExampleDataButton").innerText = "Load example data from json";
     } else {
         userID = user.id;
         document.getElementById("notLogedIn").style.display = "none";
         document.getElementById("logedIn").style.display = "unset";
         document.getElementById("username").innerText = user.email;
-        document.getElementById("loadExampleDataButton").innerText = "Add self to example public playlists"
+        document.getElementById("loadExampleDataButton").innerText = "Add self to example public playlists";
 
-        
         // playlistFromDatabase();
     }
     renderPlaylistList();
@@ -155,7 +134,7 @@ async function renderCurrentUser() {
  * binds a listner to the the auth state change
  * calls renderCurrentUser when an important state change has happend
  */
-const { stateChange } = supabase.auth.onAuthStateChange((event, session) => {
+const { stateChange } = auth.supabase.auth.onAuthStateChange(async (event, session) => {
     console.log(event, session);
 
     if (event === "INITIAL_SESSION") {
@@ -174,6 +153,10 @@ const { stateChange } = supabase.auth.onAuthStateChange((event, session) => {
             }
             localStorage.setItem("data", "");
         }
+        const user = await auth.getUser();
+        if(user != null){
+            playlistFromDatabase();
+        }
         renderCurrentUser();
     } else if (event === "SIGNED_IN") {
         // handle sign in event
@@ -181,10 +164,10 @@ const { stateChange } = supabase.auth.onAuthStateChange((event, session) => {
         // Ask to recover data
         playlistFromDatabase();
         renderCurrentUser();
-
     } else if (event === "SIGNED_OUT") {
         // handle sign out event
         data = { playlists: [] };
+        userID != "local";
         renderCurrentUser();
     } else if (event === "PASSWORD_RECOVERY") {
         // handle password recovery event
@@ -215,30 +198,22 @@ Storage.prototype.getObject = function (key) {
 async function gitHubignIn() {
     //save any temporary data that was created to be revived after login
     localStorage.setObject("data", data);
-    const { responsedata, error } = await supabase.auth.signInWithOAuth({
-        provider: "github",
-        options: {
-            redirectTo: 'https://site-unit2-project1-music-playlist-explorer-starter-i7szdrg4f.vercel.app/',
-        },
-    });
+    await auth.signInWithOAuth();
     // I'm not sure if this is ever called or if the redirect blocks it
-    renderCurrentUser();
+    // renderCurrentUser();
 }
 
 addEventListener("beforeunload", (event) => {
-
-    if(userID == "local"){
+    if (userID == "local") {
         localStorage.setObject("data", data);
     }
 });
-
 
 /**
  * Signs out the current auth user, doesn't redirect
  */
 async function signOut() {
-    const { error } = await supabase.auth.signOut();
-    console.log(error);
+    auth.signOut();
     renderCurrentUser();
 }
 
@@ -269,7 +244,7 @@ function encodeHTML(s) {
 
 // modified from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
 // min is inclusive and max is exclusive
-function getRandomInt(min, max){
+function getRandomInt(min, max) {
     return Math.floor(Math.random() * max - min) + min;
 }
 
@@ -332,7 +307,6 @@ const addSongButtonCode = `
 <div class="songlistItemLength"></div>
 </li>`;
 
-
 /**
  * renders the song list into the modal
  */
@@ -340,13 +314,13 @@ function renderSongList(playlistToOpen) {
     const songlistContainer = document.getElementById("playlistListOfSongs");
     songlistContainer.innerHTML = addSongButtonCode;
     // alert("Asdf")
-    document.getElementById("createNewSongButton").addEventListener("click", () =>{
+    document.getElementById("createNewSongButton").addEventListener("click", () => {
         if (typeof createSongModal.showModal === "function") {
             createSongModal.showModal();
         } else {
             outputBox.value = "Sorry, the dialog API is not supported by this browser.";
         }
-    })
+    });
     playlistToOpen.songs.forEach((song) => {
         let songlistItem = document.createElement("li"); // Create a <li> element
         songlistItem.innerHTML = `
@@ -458,7 +432,6 @@ function renderPlaylistList() {
     data.playlists.forEach((playlist) => {
         const currentHeartPath = getHeartPath(playlist.liked_users);
 
-
         let playlistItem = document.createElement("li"); // Create a <li> element
         playlistItem.innerHTML = `
                 <img class="playlistItemImage" src="${encodeHTML(playlist.playlist_art)}" alt="playlist Image"></img>
@@ -488,17 +461,16 @@ async function playlistJSON() {
     // get the playlist json data from a hosted file
     if (userID != "local") {
         const privacyConfirm = confirm("warning, joining public playlists could expose your email to other users");
-        if(!privacyConfirm){
+        if (!privacyConfirm) {
             return;
         }
-        await addUserToPlaylist(1);
-        await addUserToPlaylist(5);
-        await addUserToPlaylist(7);
-        await addUserToPlaylist(6);
-        await addUserToPlaylist(100);
-        await addUserToPlaylist(2);
+        await auth.addUserToPlaylist(1);
+        await auth.addUserToPlaylist(2);
+        await auth.addUserToPlaylist(3);
+        await auth.addUserToPlaylist(4);
+        await auth.addUserToPlaylist(5);
+        await auth.addUserToPlaylist(6);
         await playlistFromDatabase();
-
     } else {
         const response = await fetch("/data/data.json");
         data = await response.json();
@@ -517,16 +489,14 @@ document.getElementById("loadExampleDataButton").addEventListener("click", () =>
 });
 
 async function playlistFromDatabase() {
-    const {
-        data: { user },
-    } = await supabase.auth.getUser();
+    const user = await auth.getUser();
     console.log(user.id);
-    const resobj = await supabase.from("playlists").select().contains("user_emails", [user.email]);
+    const resobj = await auth.supabase.from("playlists").select().contains("user_emails", [user.email]);
     // .eq('user_id', user.id)
     console.log(resobj);
     data = { playlists: [] };
     resobj.data.forEach((dbplaylist) => {
-        dbplaylist.playlistData.playlistID= dbplaylist.id;
+        dbplaylist.playlistData.playlistID = dbplaylist.id;
         data.playlists.push(dbplaylist.playlistData);
     });
     console.log(data);
@@ -537,69 +507,15 @@ async function playlistFromDatabase() {
  * uploads the data currenlty stored locally, will not delete anything from postgres ever
  */
 async function uploadLocalData(localData) {
-    const {
-        data: { user },
-    } = await supabase.auth.getUser();
+    const user = await auth.getUser();
     console.log(user);
-    if(user == null){
-        data = localData
-    }else{
-    localData.playlists.forEach(async (playlist) => {
-        if (playlist.liked_users.indexOf("local") != -1) {
-            playlist.liked_users = [];
-            playlist.liked_users.push(userID);
-        }
-        const { returndata, error } = await supabase.from("playlists").upsert({ playlistData: playlist, user_emails:[user.email] }).select();
-        console.log(returndata, error);
-    });
-}
-}
-
-/**
- * add user to user_emails array
- * @param {number} playlistID
- */
-async function addUserToPlaylist(playlistID, userEmailtoAdd = null) {
-    if (userEmailtoAdd == null) {
-        const {
-            data: { user },
-        } = await supabase.auth.getUser();
-        userEmailtoAdd = user.email;
+    if (user == null) {
+        data = localData;
+    } else {
+        localData.playlists.forEach(async (playlist) => {
+            auth.upsertPlaylist(playlist);
+        });
     }
-
-    const resobj = await supabase.from("playlists").select().eq("id", playlistID);
-    // .eq('user_id', user.id)
-    if (resobj.data[0].user_emails.indexOf(userEmailtoAdd) != -1) {
-        console.log("email already present");
-        return;
-    }
-    resobj.data[0].user_emails.push(userEmailtoAdd);
-    console.log(resobj.data[0].user_emails);
-
-    // const { returndata, error } = await supabase.from('playlists').select().eq('id', playlistID)
-    // console.log(returndata, error)
-
-    const { returndata2, error2 } = await supabase
-        .from("playlists")
-        .update({ user_emails: resobj.data[0].user_emails })
-        .select()
-        .eq("id", playlistID);
-    console.log(returndata2, error2);
-}
-
-/**
- * updates 1 playlist currenlty stored locally
- */
-async function dbUpdatePlaylist(freshPlaylistData) {
-    const {
-        data: { user },
-    } = await supabase.auth.getUser();
-    console.log(user);
-    const { returndata, error } = await supabase
-        .from("playlists")
-        .update({ playlistData: freshPlaylistData })
-        .eq("id", freshPlaylistData.playlistID);
-    console.log(returndata, error);
 }
 
 /**
@@ -617,7 +533,7 @@ function likePlaylist(playlistID) {
         });
     }
     console.log(data);
-    dbUpdatePlaylist(curPlaylist);
+    auth.dbUpdatePlaylist(curPlaylist);
 
     renderPlaylistList();
 }

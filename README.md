@@ -4,8 +4,9 @@ TASKs TO BE DONE
 |comment all functions | 1->2 hours |started | finished 4:30||||||||||
 |connect to firebase auth |3 hours | started 1pm | finished 339 pm||||||||||
 |imploment a unified color pallet | 2 hour | not started||||||||||
-||||||||||
+|create a featured public playlist page with add button | 2 hours ||||
 |retrieve json firebase | 2.5 hours | started 4:39||||||||||
+| make a featured page||||
 ||||||||||
 |**Add New Playlists** | 2 hours | started 8:21 am| finished 11:27||||||||||
 |**Edit Existing Playlists** |  |||||||||
@@ -22,7 +23,7 @@ TASKs TO BE DONE
 |change text on the defualt button based on it's current function | 20 min | started 11:40 | finished 11:50 |||||
 |retool has local data is uploaded with respect to ids ||| finished 11:40||||
 |write a report/section on the privazy measures and implimacations||||
-|refactor the code base into multiple files||||
+|refactor the code base into multiple files|1.5 hours|started 3:55||
 |polish and integrate login and signup pages (maybe combine into one)||||
 |credit font awsome in the footer||||
 |lower the amount of rerender of the playlistlists||||

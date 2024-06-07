@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Music Playlist Explorer</title>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+
+    <link rel="stylesheet" href="style.css">
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> -->
+    
+</head>
+
+<body>
+    <header>
+        <!-- Your header content here -->
+        <h1>Music PlayList Explorer</h1>
+        <p>Featured Playlists</p>
+        <div id="userInfoAndButtons">
+            <div id="notLogedIn">
+                <button id="githubSignUp">Sign In/Up with Github</button>
+                <a href="/signup.html">Sign Up with email/password</a>
+                <a href="/login.html">Log In with email/password</a>
+            </div>
+            <div id="logedIn">
+                Hello <span id="username"></span>
+                <button id="signOut">Sign Out</button>
+
+            </div>
+            <button id="loadExampleDataButton">Load example data</button>
+
+        </div>
+
+    </header>
+
+    <!-- Modal Structure -->
+    <div id="playlistModal" class="modal">
+        <div class="modal-content">
+            <span id="modalClose">&times;</span>
+            <div class="modalFlex">
+                <img id="playlistModalImage" src="" alt="playlist Image">
+                <div class="modalVertFlex">
+                    <h2 id="playlistModalName"></h2>
+
+                    <p id="playlistModalCreatorName"></p>
+                </div>
+                <div id="playlistModalLikesContainer" class="playlistItemLikesContainer">
+                    <img class="playlistItemHeart" id ="playlistModalHeart" src="assets/img/heart-regular.svg" >
+                    <div id="playlistModalLikesCount" class="playListItemLikesCount"></div>
+                </div>
+            </div>
+            <button id="shuffleSongsList">shuffle</button>
+            <ul id="playlistListOfSongs">
+
+            </ul>
+            <div id="artistModalLineup"></div>
+        </div>
+    </div>
+
+    <!-- create playlist modal -->
+    <!-- code modified from https://developer.mozilla.org/en-US/docs/Web/CSS/:modal -->
+    <dialog id="createPlaylistModal">
+        <form method="dialog">
+            <h2>Create a new playlist</h2>
+            <p>
+                <div>
+                    <input type="text" id="name" name="name"  />
+                    <label for="name">Playlist name</label>
+                </div>
+                <div>
+                    <input type="url" name="url" id="url" placeholder="https://example.com" pattern="https://.*" />
+                    <label for="url">Enter an image url</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="public" name="public" />
+                    <label for="public">Public (only public playlists can be shared but being in a public playlist exposes your email address)</label>
+                </div>
+            </p>
+            <div>
+                <button value="cancel">Cancel</button>
+                <button id="confirmBtn" value="confirm">Confirm</button>
+            </div>
+        </form>
+    </dialog>
+
+    <!-- "songID": playlistToOpen.songs.length*8+getRandomInt(0,8),
+            "title": document.getElementById("addSongName").value,
+            "artist": document.getElementById("addSongArtist").value,
+            "album": document.getElementById("addSongAlbum").value,
+            "cover_art": document.getElementById("addSongCoverArt").value,
+            "duration": document.getElementById("addSongDuration").value -->
+        <dialog id="createSongModal">
+            <form method="dialog">
+                <h2>Add a new song</h2>
+                <p>
+                    Search+autofill comming soon
+                    <div>
+                        <input type="text" id="addSongName" name="addSongName"  />
+                        <label for="addSongName">Song name</label>
+                    </div>
+                    <div>
+                        <input type="url" name="addSongCoverArt" id="addSongCoverArt" placeholder="https://example.com" pattern="https://.*" />
+                        <label for="addSongCoverArt">Song art</label>
+                    </div>
+                    <div>
+                        <input type="text" id="addSongAlbum" name="addSongAlbum"  />
+                        <label for="addSongAlbum">Song album name</label>
+                    </div>
+                    <div>
+                        <input type="text" id="addSongArtist" name="addSongArtist"  />
+                        <label for="addSongArtist">Song artist name</label>
+                    </div>
+                    <div>
+                        <input type="text" id="addSongDuration" name="addSongDuration"  />
+                        <label for="addSongDuration">Song song duration</label>
+                    </div>
+                    
+                </p>
+                <div>
+                    <button value="cancel">Cancel</button>
+                    <button id="confirmBtn" value="confirm">Confirm</button>
+                </div>
+            </form>
+        </dialog>
+
+    <main>
+        <!-- Your main content here -->
+        <ul id="playlistsContainer" class="playlistCards">
+
+        </ul>
+    </main>
+
+    <footer>
+        <!-- Your footer content here -->
+    </footer>
+
+    <script type="module" src="script.js"></script>
+</body>
+
+</html>

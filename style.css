@@ -118,14 +118,15 @@ header h1 {
 /* Css for the playlist Items */
 .playlistCards {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(134px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(160px, 2fr));
     gap: 1em;
     padding: 0;
     padding-left: 1em;
     padding-right: 1em;
-    max-width: 800px;
+    max-width: 940px;
     margin: auto;
     list-style-type: none;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 2fr));
 }
 
 .playlistItem {
