@@ -140,7 +140,7 @@ function alphaSort(str1, str2){
     if (str1 < str2) {
         return -1;
     }
-    if (playlist1.playlist_name > playlist2.playlist_name) {
+    if (str1.playlist_name > str2.playlist_name) {
         return 1;
     }
     return 0;
@@ -160,14 +160,11 @@ function dateSort(playlist1, playlist2) {
     if (playlist1.created_at == undefined || playlist2.created_at == undefined) {
         return 0;
     }
-    return new Date(playlist1.created_at) < new Date(playlist2.created_at) ? 1 : -1;
+    return new Date(playlist1.created_at) > new Date(playlist2.created_at) ? 1 : -1;
 }
 
 function dateSortReverse(playlist2, playlist1) {
-    if (playlist1.created_at == undefined || playlist2.created_at == undefined) {
-        return 0;
-    }
-    return new Date(playlist1.created_at) < new Date(playlist2.created_at) ? 1 : -1;
+    return dateSort(playlist1, playlist2)
 }
 
 function alphaSortCreator(playlist1, playlist2) {
