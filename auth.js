@@ -1,7 +1,7 @@
 // In a project with react or webpack (etc) this would be replaced with the supabase npm package
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
-const isLocal = false;
+const isLocal = true;
 
 // filepaths for the heart svg files
 const heartNotLiked = "assets/img/heart-regular.svg";
@@ -53,7 +53,7 @@ export class Auth {
      * updates 1 playlist currenlty stored locally
      */
     async dbUpdatePlaylist(freshPlaylistData) {
-        const user = await this.supabase.getUser();
+        const user = await this.getUser();
         console.log(user);
         const { returndata, error } = await this.supabase
             .from("playlists")
@@ -93,9 +93,10 @@ export class Auth {
     }
 
     async upsertPlaylist(playlist) {
+        const user = await this.getUser();
         if (playlist.liked_users.indexOf("local") != -1) {
             playlist.liked_users = [];
-            playlist.liked_users.push(userID);
+            playlist.liked_users.push(user.id);
         }
         const { returndata, error } = await this.supabase
             .from("playlists")
@@ -110,7 +111,7 @@ export class Auth {
      * @param {Array} likedUsersArray
      * @returns {String}
      */
-    getHeartPath(likedUsersArray) {
+    getHeartPath(likedUsersArray, userID = "local") {
         for (let i = 0; i < likedUsersArray.length; i++) {
             if (likedUsersArray[i] == userID) {
                 return heartLiked;

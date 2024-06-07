@@ -166,8 +166,6 @@ const { stateChange } = auth.supabase.auth.onAuthStateChange(async (event, sessi
         renderCurrentUser();
     } else if (event === "SIGNED_OUT") {
         // handle sign out event
-        data = { playlists: [] };
-        userID != "local";
         renderCurrentUser();
     } else if (event === "PASSWORD_RECOVERY") {
         // handle password recovery event
@@ -213,7 +211,8 @@ addEventListener("beforeunload", (event) => {
  * Signs out the current auth user, doesn't redirect
  */
 async function signOut() {
-    auth.signOut();
+    await auth.signOut();
+    data = { playlists: [] };
     renderCurrentUser();
 }
 
@@ -335,7 +334,7 @@ function openModal(playlistIDToGet) {
     document.getElementById("playlistModalCreatorName").innerText = playlistToOpen.playlist_creator;
     document.getElementById("playlistModalLikesCount").innerText = playlistToOpen.liked_users.length;
 
-    const currentHeartPath = auth.getHeartPath(playlistToOpen.liked_users);
+    const currentHeartPath = auth.getHeartPath(playlistToOpen.liked_users, userID);
     const heartModalElement = document.getElementById("playlistModalHeart");
     heartModalElement.src = currentHeartPath;
 
@@ -405,7 +404,7 @@ function renderPlaylistList() {
 
     // rendering the playlists
     data.playlists.forEach((playlist) => {
-        const currentHeartPath = auth.getHeartPath(playlist.liked_users);
+        const currentHeartPath = auth.getHeartPath(playlist.liked_users, userID);
 
         let playlistItem = document.createElement("li"); // Create a <li> element
         playlistItem.innerHTML = `
