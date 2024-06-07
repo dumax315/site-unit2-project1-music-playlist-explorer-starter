@@ -20,7 +20,7 @@ export class Auth {
         } else {
             supabase = await createClient(
                 "https://zkjmdhhvcxwjgjsryyow.supabase.co",
-                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1naHh2dndkZHZzaGR2emtnaGpiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTc3MDYxNDYsImV4cCI6MjAzMzI4MjE0Nn0.PGQPVzRRG49OhWdfyNYjptSV0rrw0AyKNmb5BtQaDks"
+                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpram1kaGh2Y3h3amdqc3J5eW93Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTc2MjAxMjQsImV4cCI6MjAzMzE5NjEyNH0.M3aEkryg17fMtWrC1hKigqovebKhSOz5P4Y1Pd17ug4"
             );
         }
         console.log(supabase);
