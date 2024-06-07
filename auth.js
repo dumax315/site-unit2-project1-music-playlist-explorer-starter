@@ -1,9 +1,13 @@
 // In a project with react or webpack (etc) this would be replaced with the supabase npm package
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
-const isLocal = true;
+const isLocal = false;
 
-// idea for the asyc constumnet  from https://dev.to/somedood/the-proper-way-to-write-async-constructors-in-javascript-1o8c
+// filepaths for the heart svg files
+const heartNotLiked = "assets/img/heart-regular.svg";
+const heartLiked = "assets/img/heart-solid.svg";
+
+// idea for the asyc constructor from https://dev.to/somedood/the-proper-way-to-write-async-constructors-in-javascript-1o8c
 
 export class Auth {
     static async setUpAuth() {
@@ -88,7 +92,7 @@ export class Auth {
         console.log(returndata2, error2);
     }
 
-    async upsertPlaylist(playlist){
+    async upsertPlaylist(playlist) {
         if (playlist.liked_users.indexOf("local") != -1) {
             playlist.liked_users = [];
             playlist.liked_users.push(userID);
@@ -98,5 +102,26 @@ export class Auth {
             .upsert({ playlistData: playlist, user_emails: [user.email] })
             .select();
         console.log(returndata, error);
+    }
+
+    /**
+     * Seaches the given liked users list and returns a image path with a full heart if the signed in user is present in the list
+     * otherwise returns a path to a outline svg of a heart
+     * @param {Array} likedUsersArray
+     * @returns {String}
+     */
+    getHeartPath(likedUsersArray) {
+        for (let i = 0; i < likedUsersArray.length; i++) {
+            if (likedUsersArray[i] == userID) {
+                return heartLiked;
+            }
+        }
+        return heartNotLiked;
+    }
+
+    // a simple frontend sanitizer
+    // found at https://stackoverflow.com/questions/2794137/sanitizing-user-input-before-adding-it-to-the-dom-in-javascript
+    encodeHTML(s) {
+        return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
     }
 }

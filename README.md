@@ -30,6 +30,7 @@ TASKs TO BE DONE
 |fix open playlist modal heading||||
 |more hover and active effects||||
 |make all the db stuff a class in a differnt js file||||
+|get hearted playlists first||||
 
 📝 `NOTE` Use this template to initialize the contents of a README.md file for your application. As you work on your assignment over the course of the week, update the required or stretch features lists to indicate which features you have completed by changing `[ ]` to `[x]`. (🚫 Remove this paragraph before submitting your assignment.)
 

@@ -236,12 +236,6 @@ const playlistsContainer = document.getElementById("playlistsContainer");
 var modal = document.getElementById("playlistModal");
 var span = document.getElementById("modalClose");
 
-// a simple frontend sanitizer
-// found at https://stackoverflow.com/questions/2794137/sanitizing-user-input-before-adding-it-to-the-dom-in-javascript
-function encodeHTML(s) {
-    return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
-}
-
 // modified from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
 // min is inclusive and max is exclusive
 function getRandomInt(min, max) {
@@ -260,25 +254,6 @@ function shuffleArray(arr) {
         arr[i] = arr[j];
         arr[j] = temp;
     }
-}
-
-// filepaths for the heart svg files
-const heartNotLiked = "assets/img/heart-regular.svg";
-const heartLiked = "assets/img/heart-solid.svg";
-
-/**
- * Seaches the given liked users list and returns a image path with a full heart if the signed in user is present in the list
- * otherwise returns a path to a outline svg of a heart
- * @param {Array} likedUsersArray
- * @returns {String}
- */
-function getHeartPath(likedUsersArray) {
-    for (let i = 0; i < likedUsersArray.length; i++) {
-        if (likedUsersArray[i] == userID) {
-            return heartLiked;
-        }
-    }
-    return heartNotLiked;
 }
 
 /**
@@ -324,13 +299,13 @@ function renderSongList(playlistToOpen) {
     playlistToOpen.songs.forEach((song) => {
         let songlistItem = document.createElement("li"); // Create a <li> element
         songlistItem.innerHTML = `
-            <img class="songlistItemImg" src="${encodeHTML(song.cover_art)}">
+            <img class="songlistItemImg" src="${auth.encodeHTML(song.cover_art)}">
             <div class="songlistItemTextContainer">
-                <h3 class="songlistItemTitle">${encodeHTML(song.title)}</h3>
-                <div class="songlistItemArtist">${encodeHTML(song.artist)}</div>
-                <div class="songlistItemArtist">${encodeHTML(song.album)}</div>
+                <h3 class="songlistItemTitle">${auth.encodeHTML(song.title)}</h3>
+                <div class="songlistItemArtist">${auth.encodeHTML(song.artist)}</div>
+                <div class="songlistItemArtist">${auth.encodeHTML(song.album)}</div>
             </div>
-            <div class="songlistItemLength">${encodeHTML(song.duration)}</div>`;
+            <div class="songlistItemLength">${auth.encodeHTML(song.duration)}</div>`;
         songlistItem.classList.add("songlistItemContainer");
         songlistContainer.appendChild(songlistItem); // Add <li> to the <ul>
     });
@@ -360,7 +335,7 @@ function openModal(playlistIDToGet) {
     document.getElementById("playlistModalCreatorName").innerText = playlistToOpen.playlist_creator;
     document.getElementById("playlistModalLikesCount").innerText = playlistToOpen.liked_users.length;
 
-    const currentHeartPath = getHeartPath(playlistToOpen.liked_users);
+    const currentHeartPath = auth.getHeartPath(playlistToOpen.liked_users);
     const heartModalElement = document.getElementById("playlistModalHeart");
     heartModalElement.src = currentHeartPath;
 
@@ -430,13 +405,13 @@ function renderPlaylistList() {
 
     // rendering the playlists
     data.playlists.forEach((playlist) => {
-        const currentHeartPath = getHeartPath(playlist.liked_users);
+        const currentHeartPath = auth.getHeartPath(playlist.liked_users);
 
         let playlistItem = document.createElement("li"); // Create a <li> element
         playlistItem.innerHTML = `
-                <img class="playlistItemImage" src="${encodeHTML(playlist.playlist_art)}" alt="playlist Image"></img>
-                <h3 class="playlistItemTitle">${encodeHTML(playlist.playlist_name)}</h3>
-                <p class="playlistItemCreatorName">${encodeHTML(playlist.playlist_creator)}</p>
+                <img class="playlistItemImage" src="${auth.encodeHTML(playlist.playlist_art)}" alt="playlist Image"></img>
+                <h3 class="playlistItemTitle">${auth.encodeHTML(playlist.playlist_name)}</h3>
+                <p class="playlistItemCreatorName">${auth.encodeHTML(playlist.playlist_creator)}</p>
                 <div id="${"LikesContainerID" + playlist.playlistID}" class="playlistItemLikesContainer">
                     <img class="playlistItemHeart" src="${currentHeartPath}" >
                     <div class="playlistItemLikesCount">${playlist.liked_users.length}</div>
