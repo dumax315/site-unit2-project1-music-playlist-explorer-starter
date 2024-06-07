@@ -126,3 +126,67 @@ export class Auth {
         return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
     }
 }
+// sorting functions
+function numberOfLikesCompare(playlist1, playlist2) {
+    return playlist2.liked_users.length - playlist1.liked_users.length;
+}
+
+function numberOfLikesCompareReverse(playlist1, playlist2) {
+    return playlist1.liked_users.length - playlist2.liked_users.length;
+}
+
+function alphaSort(str1, str2){
+    // return playlist1.playlist_name.localeCompare(playlist2.playlist_name)
+    if (str1 < str2) {
+        return -1;
+    }
+    if (playlist1.playlist_name > playlist2.playlist_name) {
+        return 1;
+    }
+    return 0;
+}
+
+function alphaSortName(playlist1, playlist2) {
+    return alphaSort(playlist1.playlist_name, playlist2.playlist_name);
+
+}
+
+function alphaSortNameReverse(playlist1, playlist2) {
+    return alphaSort(playlist2.playlist_name, playlist1.playlist_name);
+}
+
+// modified from https://stackoverflow.com/questions/7555025/fastest-way-to-sort-an-array-by-timestamp
+function dateSort(playlist1, playlist2) {
+    if (playlist1.created_at == undefined || playlist2.created_at == undefined) {
+        return 0;
+    }
+    return new Date(playlist1.created_at) < new Date(playlist2.created_at) ? 1 : -1;
+}
+
+function dateSortReverse(playlist2, playlist1) {
+    if (playlist1.created_at == undefined || playlist2.created_at == undefined) {
+        return 0;
+    }
+    return new Date(playlist1.created_at) < new Date(playlist2.created_at) ? 1 : -1;
+}
+
+function alphaSortCreator(playlist1, playlist2) {
+    return alphaSort(playlist1.playlist_creator, playlist2.playlist_creator);
+
+}
+
+function alphaSortCreatorReverse(playlist1, playlist2) {
+    return alphaSort(playlist2.playlist_creator, playlist1.playlist_creator);
+}
+
+export const sortingFunctions = [
+    numberOfLikesCompare,
+    numberOfLikesCompareReverse,
+    alphaSortName,
+    alphaSortNameReverse,
+    dateSort,
+    dateSortReverse,
+    alphaSortCreator,
+    alphaSortCreatorReverse
+
+];

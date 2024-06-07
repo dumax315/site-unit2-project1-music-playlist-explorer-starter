@@ -1,10 +1,16 @@
-import { Auth } from "./auth.js";
+import { Auth, sortingFunctions } from "./auth.js";
 
 const auth = await Auth.setUpAuth();
 
-
 // Hold the current userID (updated with auth later, used for the liked_users list)
 let userID = "local";
+
+
+
+document.getElementById("sortSelecter").addEventListener("change", (event) => {
+    // alert("ASDFasdfasdfafdadf")
+    renderPlaylistList();
+});
 
 // add playlist code
 // modal controls modified from https://developer.mozilla.org/en-US/docs/Web/CSS/:modal
@@ -52,13 +58,67 @@ createPlaylistModal.addEventListener("close", async () => {
             if (error) {
                 alert(error);
             }
-            playlistFromDatabase();
+            loadPlaylistFromDatabase();
         } else {
             freshPlaylistData.playlist_creator = "local";
             freshPlaylistData["playlistID"] = data.playlists.length * 7 + getRandomInt(0, 7);
             data.playlists.push(freshPlaylistData);
             renderCurrentUser();
         }
+    }
+});
+
+const editPlaylistModal = document.getElementById("editPlaylistModal");
+
+// If a browser doesn't support the dialog, then hide the
+// dialog contents by default.
+if (typeof editPlaylistModal.showModal !== "function") {
+    editPlaylistModal.hidden = true;
+    // Your fallback script
+    alert("This website is not compatible with your browser");
+}
+
+// "Confirm" button of form triggers "close" on dialog because of [method="dialog"]
+editPlaylistModal.addEventListener("close", async () => {
+    // the return value is the value of the button pressed to close the modal
+    // either cancel or confirm
+
+    if (editPlaylistModal.returnValue === "confirm") {
+        const user = await auth.getUser();
+
+        let freshPlaylistData = getPlaylistByID(document.getElementById("editPlaylistID").value);
+        freshPlaylistData.playlist_name = document.getElementById("editPlaylistName").value;
+        freshPlaylistData.playlist_art = document.getElementById("editPlaylistUrl").value;
+
+        if (user != null) {
+            // freshPlaylistData.playlist_creator = user.email;
+            // if (freshPlaylistData.liked_users.indexOf("local") != -1) {
+            //     freshPlaylistData.liked_users = [];
+            //     freshPlaylistData.liked_users.push(userID);
+            // }
+
+            let isPublic = false;
+            if (document.getElementById("editPlaylistPublic").value === "on") {
+                isPublic = true;
+            }
+            const { returndata, error } = await auth.supabase
+                .from("playlists")
+                .update({ playlistData: freshPlaylistData, public: isPublic })
+                .eq("id", freshPlaylistData.playlistID);
+            console.log(returndata, error);
+            if (error) {
+                alert(error);
+            }
+            await loadPlaylistFromDatabase();
+        } else {
+            // for(let i = 0; i < data.playlists.length; i++){
+            //     if(data.playlists[i].playlistID == freshPlaylistData.playlistID){
+            //         data.playlists[i] = freshPlaylistData
+            //     }
+            // }
+            renderCurrentUser();
+        }
+        openModal(freshPlaylistData.playlistID);
     }
 });
 
@@ -96,7 +156,7 @@ createSongModal.addEventListener("close", async () => {
         if (user != null) {
             await auth.dbUpdatePlaylist(playlistToOpen);
 
-            await playlistFromDatabase();
+            await loadPlaylistFromDatabase();
             renderSongList(playlistToOpen);
         } else {
             await renderCurrentUser();
@@ -119,13 +179,13 @@ export async function renderCurrentUser() {
         document.getElementById("logedIn").style.display = "none";
         document.getElementById("loadExampleDataButton").innerText = "Load example data from json";
     } else {
-        userID = user.id;
+        userID = user.email;
         document.getElementById("notLogedIn").style.display = "none";
         document.getElementById("logedIn").style.display = "unset";
         document.getElementById("username").innerText = user.email;
         document.getElementById("loadExampleDataButton").innerText = "Add self to example public playlists";
 
-        // playlistFromDatabase();
+        // loadPlaylistFromDatabase();
     }
     renderPlaylistList();
 }
@@ -154,18 +214,19 @@ const { stateChange } = auth.supabase.auth.onAuthStateChange(async (event, sessi
             localStorage.setItem("data", "");
         }
         const user = await auth.getUser();
-        if(user != null){
-            playlistFromDatabase();
+        if (user != null) {
+            loadPlaylistFromDatabase();
         }
         renderCurrentUser();
     } else if (event === "SIGNED_IN") {
         // handle sign in event
         // const user = await supabase.auth.getUser();
         // Ask to recover data
-        playlistFromDatabase();
+        loadPlaylistFromDatabase();
         renderCurrentUser();
     } else if (event === "SIGNED_OUT") {
         // handle sign out event
+        userID = "local";
         renderCurrentUser();
     } else if (event === "PASSWORD_RECOVERY") {
         // handle password recovery event
@@ -351,6 +412,42 @@ function openModal(playlistIDToGet) {
         openModal(playlistIDToGet);
     });
 
+    document.getElementById("editPlaylistButton").addEventListener("click", () => {
+        if (typeof editPlaylistModal.showModal === "function") {
+            document.getElementById("editPlaylistNameDisplay").innerText = playlistToOpen.playlist_name;
+            document.getElementById("editPlaylistName").value = playlistToOpen.playlist_name;
+            document.getElementById("editPlaylistUrl").value = playlistToOpen.playlist_art;
+
+            document.getElementById("editPlaylistPublic").checked = true;
+            document.getElementById("editPlaylistID").value = playlistToOpen.playlistID;
+            editPlaylistModal.showModal();
+        } else {
+            alert("Sorry, the dialog API is not supported by this browser.");
+        }
+    });
+
+    document.getElementById("deletePlaylistButton").addEventListener("click", async () => {
+        let confirmResponse = confirm("Confirm deletion of " + playlistToOpen.playlist_name);
+        if (!confirmResponse) {
+            return;
+        }
+
+        const user = await auth.getUser();
+
+        if (user != null) {
+            const response = await auth.supabase.from("playlists").delete().eq("id", playlistToOpen.playlistID);
+            console.log(response);
+            modal.style.display = "none";
+        } else {
+            data.playlists = data.playlists.filter((playlist) => {
+                return playlist.playlistID != playlistToOpen.playlistID;
+            });
+            modal.style.display = "none";
+        }
+        loadPlaylistFromDatabase();
+        renderPlaylistList();
+    });
+
     modal.style.display = "block";
 }
 
@@ -391,6 +488,9 @@ const addPlaylistButtonCode = `
  */
 function renderPlaylistList() {
     playlistsContainer.innerHTML = addPlaylistButtonCode;
+    const sortTypeIndex = parseInt(document.getElementById("sortSelecter").value);
+    data.playlists.sort(sortingFunctions[sortTypeIndex]);
+    console.log(data.playlists);
 
     // the first item in the grids opens the create playlist <dialog> modally
     // This is in reference to // add playlist code
@@ -408,7 +508,9 @@ function renderPlaylistList() {
 
         let playlistItem = document.createElement("li"); // Create a <li> element
         playlistItem.innerHTML = `
-                <img class="playlistItemImage" src="${auth.encodeHTML(playlist.playlist_art)}" alt="playlist Image"></img>
+                <img class="playlistItemImage" src="${auth.encodeHTML(
+                    playlist.playlist_art
+                )}" alt="playlist Image"></img>
                 <h3 class="playlistItemTitle">${auth.encodeHTML(playlist.playlist_name)}</h3>
                 <p class="playlistItemCreatorName">${auth.encodeHTML(playlist.playlist_creator)}</p>
                 <div id="${"LikesContainerID" + playlist.playlistID}" class="playlistItemLikesContainer">
@@ -444,7 +546,7 @@ async function playlistJSON() {
         await auth.addUserToPlaylist(4);
         await auth.addUserToPlaylist(5);
         await auth.addUserToPlaylist(6);
-        await playlistFromDatabase();
+        await loadPlaylistFromDatabase();
     } else {
         const response = await fetch("/data/data.json");
         data = await response.json();
@@ -462,7 +564,7 @@ document.getElementById("loadExampleDataButton").addEventListener("click", () =>
     playlistJSON();
 });
 
-async function playlistFromDatabase() {
+async function loadPlaylistFromDatabase() {
     const user = await auth.getUser();
     console.log(user.id);
     const resobj = await auth.supabase.from("playlists").select().contains("user_emails", [user.email]);
@@ -471,9 +573,12 @@ async function playlistFromDatabase() {
     data = { playlists: [] };
     resobj.data.forEach((dbplaylist) => {
         dbplaylist.playlistData.playlistID = dbplaylist.id;
+        dbplaylist.playlistData.created_at = dbplaylist.created_at;
         data.playlists.push(dbplaylist.playlistData);
     });
     console.log(data);
+    const sortTypeIndex = parseInt(document.getElementById("sortSelecter").value);
+    data.playlists.sort(sortingFunctions[sortTypeIndex]);
     renderCurrentUser();
 }
 

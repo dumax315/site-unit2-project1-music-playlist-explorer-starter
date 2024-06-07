@@ -1,8 +1,14 @@
-import { Auth } from "./auth.js";
+import { Auth, sortingFunctions } from "./auth.js";
 
 const auth = await Auth.setUpAuth();
 
 let data = { playlists: [] };
+
+
+document.getElementById("sortSelecter").addEventListener("change", (event) => {
+    // alert("ASDFasdfasdfafdadf")
+    renderFeaturedPlaylistList();
+});
 
 /**
  * creates the html for the plylists
@@ -35,6 +41,9 @@ async function renderFeaturedPlaylistList() {
         dbplaylist.playlistData.playlistID = dbplaylist.id;
         data.playlists.push(dbplaylist.playlistData);
     });
+
+    const sortTypeIndex = parseInt(document.getElementById("sortSelecter").value);
+    data.playlists.sort(sortingFunctions[sortTypeIndex]);
 
     playlistsContainer.innerHTML = "";
     // rendering the playlists
