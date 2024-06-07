@@ -24,6 +24,16 @@
     <nav>
         <div id="userInfoAndButtons">
             <div>
+                <select name="sortSelecter" id="sortSelecter">
+                    <option value="0">Most Likes</option>
+                    <option value="1">Least Likes</option>
+                    <option value="2">Title A-Z</option>
+                    <option value="3">Title Z-A</option>
+                    <option value="4">Oldest</option>
+                    <option value="5">Newest</option>
+                    <option value="4">Creator A-Z</option>
+                    <option value="5">Creator Z-A</option>
+                  </select>
                 <a href="/featured.html">Featured</a>
                 <button id="loadExampleDataButton">Load example data</button>
             </div>
@@ -40,6 +50,7 @@
             
 
         </div>
+        
     </nav>
 
     <!-- Modal Structure -->
@@ -166,16 +177,7 @@
 
     <main>
 
-        <select name="sortSelecter" id="sortSelecter">
-            <option value="0">Most Likes</option>
-            <option value="1">Least Likes</option>
-            <option value="2">Title A-Z</option>
-            <option value="3">Title Z-A</option>
-            <option value="4">Oldest</option>
-            <option value="5">Newest</option>
-            <option value="4">Creator A-Z</option>
-            <option value="5">Creator Z-A</option>
-          </select>
+        
         <!-- Your main content here -->
         <ul id="playlistsContainer" class="playlistCards">
 

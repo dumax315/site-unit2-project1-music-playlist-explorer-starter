@@ -44,6 +44,7 @@ async function renderFeaturedPlaylistList() {
 
     const sortTypeIndex = parseInt(document.getElementById("sortSelecter").value);
     data.playlists.sort(sortingFunctions[sortTypeIndex]);
+    console.log(data.playlists)
 
     playlistsContainer.innerHTML = "";
     // rendering the playlists

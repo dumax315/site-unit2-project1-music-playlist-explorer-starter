@@ -136,11 +136,15 @@ function numberOfLikesCompareReverse(playlist1, playlist2) {
 }
 
 function alphaSort(str1, str2){
+    // alert(str1 +" vs " + str2);
+    // alert(str1<str2)
     // return playlist1.playlist_name.localeCompare(playlist2.playlist_name)
+    str1 = str1.toLowerCase();
+    str2 = str2.toLowerCase();
     if (str1 < str2) {
         return -1;
     }
-    if (str1.playlist_name > str2.playlist_name) {
+    if (str1 > str2) {
         return 1;
     }
     return 0;

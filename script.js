@@ -5,8 +5,6 @@ const auth = await Auth.setUpAuth();
 // Hold the current userID (updated with auth later, used for the liked_users list)
 let userID = "local";
 
-
-
 document.getElementById("sortSelecter").addEventListener("change", (event) => {
     // alert("ASDFasdfasdfafdadf")
     renderPlaylistList();
