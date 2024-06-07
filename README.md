@@ -87,35 +87,43 @@ Give a shout out to somebody from your cohort that especially helped you during 
 
 ## TASK tracker
 
-| task                                                                         | time estimate | started         | finished               |
-| ---------------------------------------------------------------------------- | ------------- | --------------- | ---------------------- |
-| comment all functions                                                        | 1->2 hours    | started         | finished 4:30          |
-| connect to firebase auth                                                     | 3 hours       | started 1pm     | finished 339 pm        |
-| imploment a unified color pallet                                             | 2 hour        | not started     |                        |
-| create a featured public playlist page                                       | 2 hours       |                 | finsished 6/6          |
-| --with add button                                                            | 1 hour        |                 |                        |
-| retrieve json firebase                                                       | 2.5 hours     | started 4:39    | finished 6/6           |
-| make a featured page                                                         |               |                 | finsihed afternoon 6/6 |
-| **Add New Playlists**                                                        | 2 hours       | started 8:21 am | finished 11:27 6/6     |
-| **Edit Existing Playlists**                                                  |               |                 |                        |
-| add song                                                                     | 1 hour        |                 | finsihed 12:51 6/6     |
-| delete song                                                                  |               |                 |                        |
-| **Delete Playlists**                                                         |               |                 |                        |
-| **Search Functionality**                                                     |               |                 |                        |
-| **Sorting Options**                                                          |               |                 |                        |
-| sharing (idealy with a table of playlists that allows usage based on a list) |               |                 |                        |
-| song search for quick add                                                    |               |                 |                        |
-| spotify integration or the like                                              |               |                 |                        |
-| set up CI with the github (try vercel first)                                 |               |                 |                        |
-| change text on the defualt button based on it's current function             | 20 min        | started 11:40   | finished 11:50         |
-| retool has local data is uploaded with respect to ids                        |               |                 | finished 11:40         |
-| write a report/section on the privazy measures and implimacations            |               |                 |                        |
-| refactor the code base into multiple files                                   | 1.5 hours     | started 3:55    |                        |
-| polish and integrate login and signup pages (maybe combine into one)         |               |                 |                        |
-| credit font awsome in the footer                                             |               |                 |                        |
-| lower the amount of rerender of the playlistlists                            |               |                 |                        |
-| fix open playlist modal heading                                              |               |                 |                        |
-| more hover and active effects                                                |               |                 |                        |
-| make all the db stuff a class in a differnt js file                          |               |                 |                        |
-| get hearted playlists first                                                  |               |                 |                        |
-| fix the nav bar                                                              |               |                 |
+| task                                                                     | time estimate                   | started         | finished               |
+| ------------------------------------------------------------------------ | ------------------------------- | --------------- | ---------------------- |
+| comment all functions                                                    | 1->2 hours                      | started         | finished 4:30          |
+| connect to firebase auth                                                 | 3 hours                         | started 1pm     | finished 339 pm        |
+| imploment a unified color pallet                                         | 2 hour                          | not started     |                        |
+| create a featured public playlist page                                   | 2 hours                         |                 | finsished 6/6          |
+| --with add button                                                        | 1 hour                          |                 |                        |
+| retrieve json firebase                                                   | 2.5 hours                       | started 4:39    | finished 6/6           |
+| make a featured page                                                     |                                 |                 | finsihed afternoon 6/6 |
+| **Add New Playlists**                                                    | 2 hours                         | started 8:21 am | finished 11:27 6/6     |
+| **Edit Existing Playlists**                                              | 2 hours                         |                 |                        |
+| --Enable users to modify the details of existing playlists.              |                                 |                 |                        |
+| --Add an edit button to each playlist tile.                              |                                 |                 |                        |
+| -- Users can update the name, creator, and songs of the playlist.        |                                 |                 |                        |
+| add song                                                                 | 1 hour                          |                 | finsihed 12:51 6/6     |
+| delete song                                                              | 1.5 hours                       |                 |                        |
+| **Delete Playlists**                                                     | 45 min                          |                 |                        |
+| --Add a delete button to each playlist tile.                             |                                 |                 |                        |
+| --When clicked, the playlist is removed from the display and data model. |                                 |                 |                        |
+| **Search Functionality**                                                 | 2 hours                         |                 |                        |
+| **Sorting Options**                                                      | 2 hours                         |                 |                        |
+| sharing                                                                  | 45 min                          |                 |                        |
+| song search for quick add                                                | 1.5 hours+ depending on the api |                 |                        |
+| --spotify integration or the like                                        |                                 |                 |                        |
+| set up CI with the github (try vercel first)                             |                                 |                 | finsihed, 6/6          |
+| change text on the defualt button based on it's current function         | 20 min                          | started 11:40   | finished 11:50         |
+| retool has local data is uploaded with respect to ids                    |                                 |                 | finished 11:40         |
+| write a report/section on the privazy measures and implimacations        |2 hours|                 |                        |
+| refactor the code base into multiple files                               | 1.5 hours                       | started 3:55    |                        |
+| polish and integrate login and signup pages (maybe combine into one)     |                                 |                 |                        |
+| credit font awsome in the footer                                         |                                 |                 |                        |
+| lower the amount of rerender of the playlistlists                        |                                 |                 |                        |
+| fix open playlist modal heading                                          |                                 |                 |                        |
+| more hover and active effects                                            |                                 |                 |                        |
+| make all the db stuff a class in a differnt js file                      |                                 |                 |                        |
+| get hearted playlists first                                              |                                 |                 |                        |
+| fix the nav bar                                                          |                                 |                 |
+
+-   \-\- means sub task
+-   -> means I updated the estimate some time before starting the task
