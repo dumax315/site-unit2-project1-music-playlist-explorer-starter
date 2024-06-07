@@ -109,7 +109,7 @@ createSongModal.addEventListener("close", async () => {
  * renderCurrentUser
  * To be called whenever the auth state changes, updates ui elements related to the current user
  */
-async function renderCurrentUser() {
+export async function renderCurrentUser() {
     const user = await auth.getUser();
     console.log(user);
     console.log("current user data above");
