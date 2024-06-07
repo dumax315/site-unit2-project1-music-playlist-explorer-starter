@@ -382,7 +382,7 @@ document.getElementById("shuffleSongsList").addEventListener("click", function (
 
 const addPlaylistButtonCode = `
 <li class="playlistItem" id="createNewPlaylistButton">
-<img id="addPlaylistImage" draggable="false"  src="assets/img/plus-solid.svg">
+<img id="addPlaylistImage" class="playlistItemImage" draggable="false"  src="assets/img/plus-solid.svg">
 <h2>Create a new playlist</h2>
 </li>`;
 

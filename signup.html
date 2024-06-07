@@ -54,6 +54,7 @@
                     value="Sign Up"
                 />
             </form>
+            <div id="signupLoading" class="loading">loading</div>
         </main>
 
         <footer>
@@ -106,6 +107,8 @@
                 if (email.value == "" || password.value.length < 6) {
                     alert("Ensure you input a value in both fields!");
                 } else {
+                    signupForm.style.display = "none";
+                    document.getElementById("signupLoading").style.display = "block";
                     // perform operation with form input
                     const { data, error } = await supabase.auth.signUp({
                         email: email.value,
@@ -117,7 +120,7 @@
                         
 
                     }
-                    alert("check your email")
+                    // alert("check your email")
                     window.location.href = "/";
 
                 }

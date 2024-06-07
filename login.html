@@ -31,7 +31,7 @@
             <p>make sure you have verified your email</p>
             <form
                 action=""
-                id="signupForm"
+                id="loginForm"
             >
                 <label for="email">Enter your email:</label>
                 <input
@@ -51,9 +51,10 @@
 
                 <input
                     type="submit"
-                    value="Sign Up"
+                    value="Log In"
                 />
             </form>
+            <div class="loading" id="loginLoading">loading</div>
         </main>
 
         <footer>
@@ -95,8 +96,8 @@
             });
 
             // from https://www.freecodecamp.org/news/how-to-submit-a-form-with-javascript/
-            let signupForm = document.getElementById("signupForm");
-            signupForm.addEventListener("submit", async (e) => {
+            let loginForm = document.getElementById("loginForm");
+            loginForm.addEventListener("submit", async (e) => {
                 e.preventDefault();
 
                 // handle submit
@@ -106,6 +107,8 @@
                 if (email.value == "" || password.value.length < 6) {
                     alert("Ensure you input a value in both fields!");
                 } else {
+                    loginForm.style.display = "none";
+                    document.getElementById("loginLoading").style.display = "block";
                     // perform operation with form input
                     const { data, error } = await supabase.auth.signInWithPassword({
                         email: email.value,

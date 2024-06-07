@@ -57,7 +57,7 @@ async function renderFeaturedPlaylistList() {
         playlistItem.classList.add("featuredPlaylistItem");
         playlistsContainer.appendChild(playlistItem); // Add <li> to the <ul>
         playlistItem.addEventListener("click", function () {
-            openModal(playlist.playlistID);
+            openModal(playlist);
         });
         document.getElementById("LikesContainerID" + playlist.playlistID).addEventListener("click", function (e) {
             if (e && e.stopPropagation) e.stopPropagation();
@@ -77,6 +77,9 @@ async function likePlaylist(playlistID) {
         alert("log in to like public playlists");
         return;
     }
+    // const resobj = await this.supabase.from("playlists").select().eq("id", playlistID);
+    // console.log(resobj)
+    // alert(resobj)
     let curPlaylist = getPlaylistByID(playlistID);
     if (curPlaylist.liked_users.indexOf(user.email) == -1) {
         curPlaylist.liked_users.push(user.email);
@@ -88,6 +91,7 @@ async function likePlaylist(playlistID) {
     }
     console.log(data);
     await auth.dbUpdatePlaylist(curPlaylist);
+
     renderFeaturedPlaylistList();
 }
 
@@ -160,6 +164,100 @@ document.getElementById("githubSignUp").addEventListener("click", () => {
 document.getElementById("signOut").addEventListener("click", () => {
     signOut();
 });
+
+var modal = document.getElementById("playlistModal");
+
+//binds a few closing onclick that will close the modal
+document.getElementById("modalClose").onclick = function () {
+    modal.style.display = "none";
+};
+window.onclick = function (event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+};
+
+/**
+ * renders the song list into the modal
+ * @param {object} playlistToOpen
+ */
+function renderSongList(playlistToOpen) {
+    const songlistContainer = document.getElementById("playlistListOfSongs");
+    songlistContainer.innerHTML = "";
+
+    playlistToOpen.songs.forEach((song) => {
+        let songlistItem = document.createElement("li"); // Create a <li> element
+        songlistItem.innerHTML = `
+            <img class="songlistItemImg" src="${auth.encodeHTML(song.cover_art)}">
+            <div class="songlistItemTextContainer">
+                <h3 class="songlistItemTitle">${auth.encodeHTML(song.title)}</h3>
+                <div class="songlistItemArtist">${auth.encodeHTML(song.artist)}</div>
+                <div class="songlistItemArtist">${auth.encodeHTML(song.album)}</div>
+            </div>
+            <div class="songlistItemLength">${auth.encodeHTML(song.duration)}</div>`;
+        songlistItem.classList.add("songlistItemContainer");
+        songlistContainer.appendChild(songlistItem); // Add <li> to the <ul>
+    });
+}
+/**
+ * First updates the data inside the hidden modal to a given playlist
+ * then displays the modal
+ * @param {object} playlistIDToGet
+ */
+async function openModal(playlistToOpen) {
+    let user = await auth.getUser();
+    if(user == null){
+        user = {
+            email:null
+        }
+    }
+
+    //TODO: switch to binary search
+    // console.log(data.playlists.filter((playlist) => {
+    //     return playlist.playlistID == playlistIDToGet;
+    // })[0].playlist_name)
+    // console.log(playlistIDToGet + "  " + "");
+    // playlistToOpen = getPlaylistByID(playlistIDToGet);
+    //  = data.playlists.filter((playlist) => {
+    //     return playlist.playlistID == playlistIDToGet;
+    // })[0];
+    console.log(playlistToOpen);
+    document.getElementById("playlistModalName").innerText = playlistToOpen.playlist_name;
+    document.getElementById("playlistModalImage").src = playlistToOpen.playlist_art;
+    document.getElementById("playlistModalCreatorName").innerText = playlistToOpen.playlist_creator;
+    document.getElementById("playlistModalLikesCount").innerText = playlistToOpen.liked_users.length;
+
+    const currentHeartPath = auth.getHeartPath(playlistToOpen.liked_users, user.email);
+    // alert(currentHeartPath)
+    const heartModalElement = document.getElementById("playlistModalHeart");
+    heartModalElement.src = currentHeartPath;
+
+    // Clones the node to remove the previous event listners
+    // https://stackoverflow.com/questions/9251837/how-to-remove-all-listeners-in-an-element
+    let old_element = document.getElementById("playlistModalLikesContainer");
+    let new_element = old_element.cloneNode(true);
+    old_element.parentNode.replaceChild(new_element, old_element);
+
+    renderSongList(playlistToOpen);
+
+    document.getElementById("playlistModalLikesContainer").addEventListener("click", async function () {
+        await likePlaylist(playlistToOpen.playlistID);
+        // alert();
+        // gets a fresh copy of the playlist obj
+        openModal(getPlaylistByID(playlistToOpen.playlistID));
+    });
+
+    if(user.email != null){
+        const joinPublicPlaylistButton = document.getElementById("joinPublicPlaylistButton");
+        joinPublicPlaylistButton.style.display = "block";
+        joinPublicPlaylistButton.addEventListener("click", function () {
+            auth.addUserToPlaylist(playlistToOpen.playlistID, user.email)
+        });
+    }
+
+    modal.style.display = "block";
+}
+
 
 
 renderCurrentUser()

@@ -15,40 +15,51 @@
 <body>
     <header>
         <!-- Your header content here -->
-        <h1>Music PlayList Explorer</h1>
-        <a href="/">Home</a>
+        <h1>Featured Public Playlists</h1>
+
+    </header>
+    <nav>
         <div id="userInfoAndButtons">
+            <div>
+                <a href="/">Home</a>
+            </div>
             <div id="notLogedIn">
                 <button id="githubSignUp">Sign In/Up with Github</button>
-                <a href="/signup.html">Sign Up with email/password</a>
-                <a href="/login.html">Log In with email/password</a>
+                <a href="/signup.html">Email Sign Up</a>
+                <a href="/login.html">Email Log In</a>
             </div>
             <div id="logedIn">
                 Hello <span id="username"></span>
                 <button id="signOut">Sign Out</button>
 
             </div>
-        </div>
+            
 
-    </header>
+        </div>
+    </nav>
 
     <!-- Modal Structure -->
     <div id="playlistModal" class="modal">
         <div class="modal-content">
+            
             <span id="modalClose">&times;</span>
+            
             <div class="modalFlex">
                 <img id="playlistModalImage" src="" alt="playlist Image">
                 <div class="modalVertFlex">
+
                     <h2 id="playlistModalName"></h2>
 
                     <p id="playlistModalCreatorName"></p>
+                    <button id="joinPublicPlaylistButton">Join This Public Playlist</button>
+                    <button id="shuffleSongsList">Shuffle</button>
+
                 </div>
                 <div id="playlistModalLikesContainer" class="playlistItemLikesContainer">
                     <img class="playlistItemHeart" id ="playlistModalHeart" src="assets/img/heart-regular.svg" >
                     <div id="playlistModalLikesCount" class="playListItemLikesCount"></div>
                 </div>
             </div>
-            <button id="shuffleSongsList">shuffle</button>
             <ul id="playlistListOfSongs">
 
             </ul>

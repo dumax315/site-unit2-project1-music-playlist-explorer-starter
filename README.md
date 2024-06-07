@@ -91,7 +91,7 @@ Give a shout out to somebody from your cohort that especially helped you during 
 | ------------------------------------------------------------------------ | ------------------------------- | --------------- | ---------------------- |
 | comment all functions                                                    | 1->2 hours                      | started         | finished 4:30          |
 | connect to firebase auth                                                 | 3 hours                         | started 1pm     | finished 339 pm        |
-| imploment a unified color pallet                                         | 2 hour                          | not started     |                        |
+| imploment a unified color pallet                                         | 2 hour                          | 7:21 am 6/7     |                        |
 | create a featured public playlist page                                   | 2 hours                         |                 | finsished 6/6          |
 | --with add button                                                        | 1 hour                          |                 |                        |
 | retrieve json firebase                                                   | 2.5 hours                       | started 4:39    | finished 6/6           |
@@ -114,16 +114,17 @@ Give a shout out to somebody from your cohort that especially helped you during 
 | set up CI with the github (try vercel first)                             |                                 |                 | finsihed, 6/6          |
 | change text on the defualt button based on it's current function         | 20 min                          | started 11:40   | finished 11:50         |
 | retool has local data is uploaded with respect to ids                    |                                 |                 | finished 11:40         |
-| write a report/section on the privazy measures and implimacations        |2 hours|                 |                        |
+| write a report/section on the privazy measures and implimacations        | 2 hours                         |                 |                        |
 | refactor the code base into multiple files                               | 1.5 hours                       | started 3:55    |                        |
-| polish and integrate login and signup pages (maybe combine into one)     |                                 |                 |                        |
-| credit font awsome in the footer                                         |                                 |                 |                        |
-| lower the amount of rerender of the playlistlists                        |                                 |                 |                        |
-| fix open playlist modal heading                                          |                                 |                 |                        |
-| more hover and active effects                                            |                                 |                 |                        |
-| make all the db stuff a class in a differnt js file                      |                                 |                 |                        |
-| get hearted playlists first                                              |                                 |                 |                        |
-| fix the nav bar                                                          |                                 |                 |
+| polish and integrate login and signup pages (maybe combine into one)     | 1.5 hours (to do it right)      |                 |                        |
+| credit font awsome in the footer                                         | 10 min                          |                 |                        |
+| lower the amount of rerender of the playlistlists                        | 45 min                          |                 |                        |
+| fix open playlist modal heading                                          | 15 min (just css issues)        |                 |                        |
+| more hover and active effects                                            | 40 min                          |                 |                        |
+| make all the db stuff a class in a differnt js file                      | on going effort, see auth.js    |                 |                        |
+| get hearted playlists first                                              | 40 min                          |                 |                        |
+| fix the nav bar                                                          | 40 min                          |                 |                        |
+| removed the repeated code in featured.js and script.js (DRY!)            | 1 hour                          |                 |                        |
 
 -   \-\- means sub task
 -   -> means I updated the estimate some time before starting the task
