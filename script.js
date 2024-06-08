@@ -431,6 +431,12 @@ function openModal(playlistIDToGet) {
         }
     });
 
+    // Clones the node to remove the previous event listners
+    // https://stackoverflow.com/questions/9251837/how-to-remove-all-listeners-in-an-element
+    old_element = document.getElementById("deletePlaylistButton");
+    new_element = old_element.cloneNode(true);
+    old_element.parentNode.replaceChild(new_element, old_element);
+
     document.getElementById("deletePlaylistButton").addEventListener("click", async () => {
         let confirmResponse = confirm("Confirm deletion of " + playlistToOpen.playlist_name);
         if (!confirmResponse) {
@@ -449,6 +455,7 @@ function openModal(playlistIDToGet) {
             });
             modal.style.display = "none";
         }
+        
         loadPlaylistFromDatabase();
         renderPlaylistList();
     });
