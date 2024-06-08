@@ -10,6 +10,11 @@ document.getElementById("sortSelecter").addEventListener("change", (event) => {
     renderPlaylistList();
 });
 
+document.getElementById("searchBox").addEventListener("input", (event) => {
+    // alert("ASDFasdfasdfafdadf")
+    renderPlaylistList();
+});
+
 // add playlist code
 // modal controls modified from https://developer.mozilla.org/en-US/docs/Web/CSS/:modal
 const createPlaylistModal = document.getElementById("createPlaylistModal");
@@ -206,7 +211,7 @@ const { stateChange } = auth.supabase.auth.onAuthStateChange(async (event, sessi
             localStorage.getItem("data") != '{"playlists":[]}'
         ) {
             let shouldRecover = confirm(
-                "Local Data was found from a signed out session\nWhould you like to upload it to your account?"
+                "Local Data was found from a signed out session\nWould you like to upload it to your account?"
             );
             if (shouldRecover) {
                 uploadLocalData(localStorage.getObject("data"));
@@ -460,6 +465,10 @@ window.onclick = function (event) {
         modal.style.display = "none";
     }
 };
+window.onload = async function() {
+    await actuallyLoadJSON();
+    renderCurrentUser();
+};
 
 /**
  * shuffles the modal songs array and then rerenders them
@@ -492,6 +501,17 @@ function renderPlaylistList() {
     data.playlists.sort(sortingFunctions[sortTypeIndex]);
     console.log(data.playlists);
 
+    let filteredPlaylists = data.playlists;
+
+    //filter by search
+    let searchString = document.getElementById("searchBox").value;
+    if(searchString != ""){
+        filteredPlaylists = filteredPlaylists.filter((playlist)=>{
+            return playlist.playlist_name.toLowerCase().includes(searchString.toLowerCase()) || playlist.playlist_name.toLowerCase().includes(searchString.toLowerCase());
+
+        })
+    }
+
     // the first item in the grids opens the create playlist <dialog> modally
     // This is in reference to // add playlist code
     document.getElementById("createNewPlaylistButton").addEventListener("click", () => {
@@ -503,7 +523,7 @@ function renderPlaylistList() {
     });
 
     // rendering the playlists
-    data.playlists.forEach((playlist) => {
+    filteredPlaylists.forEach((playlist) => {
         const currentHeartPath = auth.getHeartPath(playlist.liked_users, userID);
 
         let playlistItem = document.createElement("li"); // Create a <li> element
@@ -530,6 +550,16 @@ function renderPlaylistList() {
     });
 }
 
+async function actuallyLoadJSON() {
+    const response = await fetch("/data/data.json");
+    data = await response.json();
+
+    if (!response.ok) {
+        const message = `An error has occured: ${response.status}`;
+        throw new Error(message);
+    }
+}
+
 /**
  * asyncronly render the playlists
  */
@@ -548,13 +578,7 @@ async function playlistJSON() {
         await auth.addUserToPlaylist(6);
         await loadPlaylistFromDatabase();
     } else {
-        const response = await fetch("/data/data.json");
-        data = await response.json();
-
-        if (!response.ok) {
-            const message = `An error has occured: ${response.status}`;
-            throw new Error(message);
-        }
+        await actuallyLoadJSON();
     }
     renderPlaylistList();
 }

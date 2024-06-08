@@ -48,9 +48,9 @@ Deployed Application (optional): [Music Playlist Explorer Deployed Site](https:/
     -   [x] Add a delete button to each playlist tile.
     -   [x] When clicked, the playlist is removed from the display and data model.
 
--   [ ] **Search Functionality**
+-   [x] **Search Functionality**
 
-    -   [ ] Implement a search bar that allows users to filter playlists by name or creator.
+    -   [x] Implement a search bar that allows users to filter playlists by name or creator.
 
 -   [x] **Sorting Options**
     -   [x] Implement a dropdown or button options that allow users to sort the playlist by name, number of likes, or date added.
@@ -106,7 +106,7 @@ Give a shout out to somebody from your cohort that especially helped you during 
 | **Delete Playlists**                                                     | 45 min                          |                     | 9:45 am 6/7            |
 | --Add a delete button to each playlist tile.                             |                                 |                     |                        |
 | --When clicked, the playlist is removed from the display and data model. |                                 |                     |                        |
-| **Search Functionality**                                                 | 2 hours                         |                     |                        |
+| **Search Functionality**                                                 | 2 hours                         |                     | 530pm 6/7              |
 | **Sorting Options**                                                      | 2 hours                         | started 9:45 am 6/7 | 11:00 am 6/7           |
 | sharing                                                                  | 45 min                          |                     |                        |
 | song search for quick add                                                | 1.5 hours+ depending on the api |                     |                        |
@@ -115,7 +115,7 @@ Give a shout out to somebody from your cohort that especially helped you during 
 | change text on the defualt button based on it's current function         | 20 min                          | started 11:40       | finished 11:50         |
 | retool has local data is uploaded with respect to ids                    |                                 |                     | finished 11:40         |
 | write a report/section on the privazy measures and implimacations        | 2 hours                         |                     |                        |
-| refactor the code base into multiple files                               | 1.5 hours                       | started 3:55        |                        |
+| refactor the code base into multiple files                               | 1.5 hours                       | started 3:55        | 50% complete 5 pm 6/7  |
 | polish and integrate login and signup pages (maybe combine into one)     | 1.5 hours (to do it right)      |                     |                        |
 | credit font awsome in the footer                                         | 10 min                          |                     |                        |
 | lower the amount of rerender of the playlistlists                        | 45 min                          |                     |                        |

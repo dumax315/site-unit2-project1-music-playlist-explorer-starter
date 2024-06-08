@@ -31,6 +31,13 @@ body {
     background-color: var(--lightMain);
 }
 
+footer {
+    background-color: var(--lightSecondary);
+    padding: 1em;
+    text-align: center;
+    margin-top: 1em;
+}
+
 /* header css */
 header {
     background-color: var(--lightSecondary);
