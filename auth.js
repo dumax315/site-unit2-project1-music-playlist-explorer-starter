@@ -1,7 +1,7 @@
 // In a project with react or webpack (etc) this would be replaced with the supabase npm package
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
-const isLocal = true;
+const isLocal = false;
 
 // filepaths for the heart svg files
 const heartNotLiked = "assets/img/heart-regular.svg";
