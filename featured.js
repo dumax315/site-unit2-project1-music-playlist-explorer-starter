@@ -249,6 +249,9 @@ function renderRandomSongList(playlistToOpen) {
         songlistItem.classList.add("songlistItemContainer");
         songlistContainer.appendChild(songlistItem); // Add <li> to the <ul>
     });
+    if(playlistToOpen.songs.length == 0){
+        songlistContainer.innerText = "This playlist has no songs yet"
+    }
 }
 /**
  * First updates the data inside the hidden modal to a given playlist

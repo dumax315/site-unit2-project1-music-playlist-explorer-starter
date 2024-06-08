@@ -157,6 +157,7 @@ button#shuffleSongsList {
 .songlistItemContainer div:last-child {
     margin-left: auto;
     margin-right: 0.5em;
+    
 }
 
 .songlistItemImg {
@@ -192,6 +193,7 @@ main {
     margin: auto;
     list-style-type: none;
     grid-template-columns: repeat(auto-fill, minmax(180px, 2fr));
+    cursor: pointer;
 }
 
 .playlistItem {
@@ -251,6 +253,7 @@ li:hover .playlistItemImage {
     align-items: center;
     /* width: 90px; */
     justify-content: flex-end;
+    cursor: pointer;
 }
 
 .playlistItemHeart {
