@@ -3,10 +3,6 @@ import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 
 const isLocal = false;
 
-// filepaths for the heart svg files
-const heartNotLiked = "assets/img/heart-regular.svg";
-const heartLiked = "assets/img/heart-solid.svg";
-
 // idea for the asyc constructor from https://dev.to/somedood/the-proper-way-to-write-async-constructors-in-javascript-1o8c
 
 export class Auth {
@@ -105,89 +101,9 @@ export class Auth {
         console.log(returndata, error);
     }
 
-    /**
-     * Seaches the given liked users list and returns a image path with a full heart if the signed in user is present in the list
-     * otherwise returns a path to a outline svg of a heart
-     * @param {Array} likedUsersArray
-     * @returns {String}
-     */
-    getHeartPath(likedUsersArray, userID = "local") {
-        for (let i = 0; i < likedUsersArray.length; i++) {
-            if (likedUsersArray[i] == userID) {
-                return heartLiked;
-            }
-        }
-        return heartNotLiked;
-    }
-
     // a simple frontend sanitizer
     // found at https://stackoverflow.com/questions/2794137/sanitizing-user-input-before-adding-it-to-the-dom-in-javascript
     encodeHTML(s) {
         return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
     }
 }
-// sorting functions
-function numberOfLikesCompare(playlist1, playlist2) {
-    return playlist2.liked_users.length - playlist1.liked_users.length;
-}
-
-function numberOfLikesCompareReverse(playlist1, playlist2) {
-    return playlist1.liked_users.length - playlist2.liked_users.length;
-}
-
-function alphaSort(str1, str2){
-    // alert(str1 +" vs " + str2);
-    // alert(str1<str2)
-    // return playlist1.playlist_name.localeCompare(playlist2.playlist_name)
-    str1 = str1.toLowerCase();
-    str2 = str2.toLowerCase();
-    if (str1 < str2) {
-        return -1;
-    }
-    if (str1 > str2) {
-        return 1;
-    }
-    return 0;
-}
-
-function alphaSortName(playlist1, playlist2) {
-    return alphaSort(playlist1.playlist_name, playlist2.playlist_name);
-
-}
-
-function alphaSortNameReverse(playlist1, playlist2) {
-    return alphaSort(playlist2.playlist_name, playlist1.playlist_name);
-}
-
-// modified from https://stackoverflow.com/questions/7555025/fastest-way-to-sort-an-array-by-timestamp
-function dateSort(playlist1, playlist2) {
-    if (playlist1.created_at == undefined || playlist2.created_at == undefined) {
-        return 0;
-    }
-    return new Date(playlist1.created_at) > new Date(playlist2.created_at) ? 1 : -1;
-}
-
-function dateSortReverse(playlist2, playlist1) {
-    return dateSort(playlist1, playlist2)
-}
-
-function alphaSortCreator(playlist1, playlist2) {
-    return alphaSort(playlist1.playlist_creator, playlist2.playlist_creator);
-
-}
-
-function alphaSortCreatorReverse(playlist1, playlist2) {
-    return alphaSort(playlist2.playlist_creator, playlist1.playlist_creator);
-}
-
-export const sortingFunctions = [
-    numberOfLikesCompare,
-    numberOfLikesCompareReverse,
-    alphaSortName,
-    alphaSortNameReverse,
-    dateSort,
-    dateSortReverse,
-    alphaSortCreator,
-    alphaSortCreatorReverse
-
-];

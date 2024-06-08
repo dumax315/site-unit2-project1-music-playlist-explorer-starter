@@ -1,4 +1,6 @@
-import { Auth, sortingFunctions } from "./auth.js";
+import { Auth } from "./auth.js";
+import { sortingFunctions, getHeartPath, populateModalData } from "./utils.js";
+
 
 const auth = await Auth.setUpAuth();
 
@@ -385,30 +387,10 @@ let playlistToOpen = null;
  * @param {number} playlistIDToGet
  */
 function openModal(playlistIDToGet) {
-    //TODO: switch to binary search
-    // console.log(data.playlists.filter((playlist) => {
-    //     return playlist.playlistID == playlistIDToGet;
-    // })[0].playlist_name)
-    console.log(playlistIDToGet + "  " + "");
+
     playlistToOpen = getPlaylistByID(playlistIDToGet);
-    //  = data.playlists.filter((playlist) => {
-    //     return playlist.playlistID == playlistIDToGet;
-    // })[0];
-    console.log(playlistToOpen);
-    document.getElementById("playlistModalName").innerText = playlistToOpen.playlist_name;
-    document.getElementById("playlistModalImage").src = playlistToOpen.playlist_art;
-    document.getElementById("playlistModalCreatorName").innerText = playlistToOpen.playlist_creator;
-    document.getElementById("playlistModalLikesCount").innerText = playlistToOpen.liked_users.length;
 
-    const currentHeartPath = auth.getHeartPath(playlistToOpen.liked_users, userID);
-    const heartModalElement = document.getElementById("playlistModalHeart");
-    heartModalElement.src = currentHeartPath;
-
-    // Clones the node to remove the previous event listners
-    // https://stackoverflow.com/questions/9251837/how-to-remove-all-listeners-in-an-element
-    let old_element = document.getElementById("playlistModalLikesContainer");
-    let new_element = old_element.cloneNode(true);
-    old_element.parentNode.replaceChild(new_element, old_element);
+    populateModalData(playlistToOpen, userID);
 
     renderSongList(playlistToOpen);
 
@@ -433,8 +415,8 @@ function openModal(playlistIDToGet) {
 
     // Clones the node to remove the previous event listners
     // https://stackoverflow.com/questions/9251837/how-to-remove-all-listeners-in-an-element
-    old_element = document.getElementById("deletePlaylistButton");
-    new_element = old_element.cloneNode(true);
+    let old_element = document.getElementById("deletePlaylistButton");
+    let new_element = old_element.cloneNode(true);
     old_element.parentNode.replaceChild(new_element, old_element);
 
     document.getElementById("deletePlaylistButton").addEventListener("click", async () => {
@@ -455,7 +437,7 @@ function openModal(playlistIDToGet) {
             });
             modal.style.display = "none";
         }
-        
+
         loadPlaylistFromDatabase();
         renderPlaylistList();
     });
@@ -531,7 +513,7 @@ function renderPlaylistList() {
 
     // rendering the playlists
     filteredPlaylists.forEach((playlist) => {
-        const currentHeartPath = auth.getHeartPath(playlist.liked_users, userID);
+        const currentHeartPath = getHeartPath(playlist.liked_users, userID);
 
         let playlistItem = document.createElement("li"); // Create a <li> element
         playlistItem.innerHTML = `
@@ -630,6 +612,7 @@ async function uploadLocalData(localData) {
 
 /**
  * changes the stored data object to like or dislike a playlist and the rerenders it
+ *     //TODO: switch to binary search
  * @param {number} playlistID
  */
 function likePlaylist(playlistID) {
