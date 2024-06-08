@@ -57,10 +57,14 @@ Deployed Application (optional): [Music Playlist Explorer Deployed Site](https:/
 
 ### Walkthrough Video
 
-`TODO://` Add the embedded URL code to your animated app walkthrough below, `ADD_EMBEDDED_CODE_HERE`. Make sure the video actually renders and is playable when viewing this README. (🚫 Remove this paragraph after adding walkthrough video)
+// the vid from the repo
 
-`ADD_EMBEDDED_CODE_HERE`
-both are the same video
+
+https://github.com/dumax315/site-unit2-project1-music-playlist-explorer-starter/assets/26506274/14b1268d-4bcf-499e-8f9b-fc4d52c0195f
+
+
+
+// below are hosted versions of the vid (there is also a copy in the file
 https://www.loom.com/share/215364d88d3d4d60813747b9bd965263?sid=9946ebeb-4fdf-4848-87f7-1ab4a813f098
 
 https://www.loom.com/embed/215364d88d3d4d60813747b9bd965263?sid=ec18a3e5-a5dd-406a-9d63-015cbf6a8155
