@@ -64,67 +64,6 @@
         <!-- <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> -->
 
         <!-- <script type="module" src="script.js"></script> -->
-        <script type="module">
-            // In a project with react or webpack (etc) this would be replaced with the supabase npm package
-            import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
-
-            // Generates a supabase client connection
-            const supabase = createClient(
-                "https://zkjmdhhvcxwjgjsryyow.supabase.co",
-                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpram1kaGh2Y3h3amdqc3J5eW93Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTc2MjAxMjQsImV4cCI6MjAzMzE5NjEyNH0.M3aEkryg17fMtWrC1hKigqovebKhSOz5P4Y1Pd17ug4"
-            );
-            console.log(supabase);
-            /**
-             * binds a listner to the the auth state change
-             * redirects if the user is loged in
-             */
-            const { stateChange } = supabase.auth.onAuthStateChange((event, session) => {
-                console.log(event, session);
-
-                if (event === "INITIAL_SESSION") {
-                    // handle initial session
-                } else if (event === "SIGNED_IN") {
-                    window.location.href = "/";
-                } else if (event === "SIGNED_OUT") {
-                } else if (event === "PASSWORD_RECOVERY") {
-                    // handle password recovery event
-                } else if (event === "TOKEN_REFRESHED") {
-                    // handle token refreshed event
-                } else if (event === "USER_UPDATED") {
-                    // handle user updated event
-                }
-            });
-
-            // from https://www.freecodecamp.org/news/how-to-submit-a-form-with-javascript/
-            let signupForm = document.getElementById("signupForm");
-            signupForm.addEventListener("submit", async (e) => {
-                e.preventDefault();
-
-                // handle submit
-                let email = document.getElementById("email");
-                let password = document.getElementById("pass");
-
-                if (email.value == "" || password.value.length < 6) {
-                    alert("Ensure you input a value in both fields!");
-                } else {
-                    signupForm.style.display = "none";
-                    document.getElementById("signupLoading").style.display = "block";
-                    // perform operation with form input
-                    const { data, error } = await supabase.auth.signUp({
-                        email: email.value,
-                        password: password.value,
-
-                    })
-                    if(error){
-                        alert(error);
-                        
-
-                    }
-                    // alert("check your email")
-                    window.location.href = "/";
-
-                }
-            });
-        </script>
+        <script type="module" src="emailAuth.js"></script>
     </body>
 </html>
