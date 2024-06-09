@@ -463,7 +463,7 @@ function renderPlaylistList() {
     let searchString = document.getElementById("searchBox").value;
     if(searchString != ""){
         filteredPlaylists = filteredPlaylists.filter((playlist)=>{
-            return playlist.playlist_name.toLowerCase().includes(searchString.toLowerCase()) || playlist.playlist_name.toLowerCase().includes(searchString.toLowerCase());
+            return playlist.playlist_name.toLowerCase().includes(searchString.toLowerCase()) || playlist.playlist_creator.toLowerCase().includes(searchString.toLowerCase());
 
         })
     }
