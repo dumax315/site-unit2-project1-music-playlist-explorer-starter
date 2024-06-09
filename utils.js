@@ -168,3 +168,53 @@ export function getHeartPath(likedUsersArray, userID = "local") {
     }
     return heartNotLiked;
 }
+
+// a simple frontend sanitizer
+// found at https://stackoverflow.com/questions/2794137/sanitizing-user-input-before-adding-it-to-the-dom-in-javascript
+export function encodeHTML(s) {
+    return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
+}
+
+const addSongButtonCode = `
+<li class="songlistItemContainer" id="createNewSongButton">
+<img id="addSongImage" draggable="false"  src="assets/img/plus-solid.svg">
+<div class="songlistItemTextContainer">
+    <h3 class="songlistItemTitle">Add a song</h3>
+
+</div>
+<div class="songlistItemLength"></div>
+</li>`;
+
+/**
+ * renders the song list into the modal
+ */
+export function renderSongList(playlistToOpen, renderAddSongButton = false) {
+    const songlistContainer = document.getElementById("playlistListOfSongs");
+    if (renderAddSongButton) {
+        songlistContainer.innerHTML = addSongButtonCode;
+
+        // alert("Asdf")
+        document.getElementById("createNewSongButton").addEventListener("click", () => {
+            if (typeof createSongModal.showModal === "function") {
+                createSongModal.showModal();
+            } else {
+                outputBox.value = "Sorry, the dialog API is not supported by this browser.";
+            }
+        });
+    }
+
+
+    playlistToOpen.songs.forEach((song) => {
+        let songlistItem = document.createElement("li"); // Create a <li> element
+        songlistItem.innerHTML = `
+            <img class="songlistItemImg" src="${encodeHTML(song.cover_art)}">
+            <div class="songlistItemTextContainer">
+                <h3 class="songlistItemTitle">${encodeHTML(song.title)}</h3>
+                <div class="songlistItemArtist">${encodeHTML(song.artist)}</div>
+                <div class="songlistItemArtist">${encodeHTML(song.album)}</div>
+            </div>
+            <div class="songlistItemLength">${encodeHTML(song.duration)}</div>`;
+        songlistItem.classList.add("songlistItemContainer");
+        songlistContainer.appendChild(songlistItem); // Add <li> to the <ul>
+    });
+}

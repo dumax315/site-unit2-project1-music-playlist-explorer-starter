@@ -100,10 +100,4 @@ export class Auth {
             .select();
         console.log(returndata, error);
     }
-
-    // a simple frontend sanitizer
-    // found at https://stackoverflow.com/questions/2794137/sanitizing-user-input-before-adding-it-to-the-dom-in-javascript
-    encodeHTML(s) {
-        return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
-    }
 }

@@ -1,5 +1,5 @@
 import { Auth } from "./auth.js";
-import { sortingFunctions, getHeartPath, populateModalData } from "./utils.js";
+import { sortingFunctions, getHeartPath, populateModalData, renderSongList, encodeHTML } from "./utils.js";
 
 
 const auth = await Auth.setUpAuth();
@@ -73,11 +73,11 @@ async function renderFeaturedPlaylistList() {
 
         let playlistItem = document.createElement("li"); // Create a <li> element
         playlistItem.innerHTML = `
-                    <img class="playlistItemImage" src="${auth.encodeHTML(
+                    <img class="playlistItemImage" src="${encodeHTML(
                         playlist.playlist_art
                     )}" alt="playlist Image"></img>
-                    <h3 class="playlistItemTitle">${auth.encodeHTML(playlist.playlist_name)}</h3>
-                    <p class="playlistItemCreatorName">${auth.encodeHTML(playlist.playlist_creator)}</p>
+                    <h3 class="playlistItemTitle">${encodeHTML(playlist.playlist_name)}</h3>
+                    <p class="playlistItemCreatorName">${encodeHTML(playlist.playlist_creator)}</p>
                     <div id="${"LikesContainerID" + playlist.playlistID}" class="playlistItemLikesContainer">
                         <img class="playlistItemHeart" src="${currentHeartPath}" >
                         <div class="playlistItemLikesCount">${playlist.liked_users.length}</div>
@@ -211,29 +211,6 @@ window.onclick = function (event) {
  * renders the song list into the modal
  * @param {object} playlistToOpen
  */
-function renderSongList(playlistToOpen) {
-    const songlistContainer = document.getElementById("playlistListOfSongs");
-    songlistContainer.innerHTML = "";
-
-    playlistToOpen.songs.forEach((song) => {
-        let songlistItem = document.createElement("li"); // Create a <li> element
-        songlistItem.innerHTML = `
-            <img class="songlistItemImg" src="${auth.encodeHTML(song.cover_art)}">
-            <div class="songlistItemTextContainer">
-                <h3 class="songlistItemTitle">${auth.encodeHTML(song.title)}</h3>
-                <div class="songlistItemArtist">${auth.encodeHTML(song.artist)}</div>
-                <div class="songlistItemArtist">${auth.encodeHTML(song.album)}</div>
-            </div>
-            <div class="songlistItemLength">${auth.encodeHTML(song.duration)}</div>`;
-        songlistItem.classList.add("songlistItemContainer");
-        songlistContainer.appendChild(songlistItem); // Add <li> to the <ul>
-    });
-}
-
-/**
- * renders the song list into the modal
- * @param {object} playlistToOpen
- */
 function renderRandomSongList(playlistToOpen) {
     const songlistContainer = document.getElementById("randomFeaturedSongsContainer");
     songlistContainer.innerHTML = "";
@@ -241,13 +218,13 @@ function renderRandomSongList(playlistToOpen) {
     playlistToOpen.songs.forEach((song) => {
         let songlistItem = document.createElement("li"); // Create a <li> element
         songlistItem.innerHTML = `
-            <img class="songlistItemImg" src="${auth.encodeHTML(song.cover_art)}">
+            <img class="songlistItemImg" src="${encodeHTML(song.cover_art)}">
             <div class="songlistItemTextContainer">
-                <h3 class="songlistItemTitle">${auth.encodeHTML(song.title)}</h3>
-                <div class="songlistItemArtist">${auth.encodeHTML(song.artist)}</div>
-                <div class="songlistItemArtist">${auth.encodeHTML(song.album)}</div>
+                <h3 class="songlistItemTitle">${encodeHTML(song.title)}</h3>
+                <div class="songlistItemArtist">${encodeHTML(song.artist)}</div>
+                <div class="songlistItemArtist">${encodeHTML(song.album)}</div>
             </div>
-            <div class="songlistItemLength">${auth.encodeHTML(song.duration)}</div>`;
+            <div class="songlistItemLength">${encodeHTML(song.duration)}</div>`;
         songlistItem.classList.add("songlistItemContainer");
         songlistContainer.appendChild(songlistItem); // Add <li> to the <ul>
     });
@@ -255,6 +232,7 @@ function renderRandomSongList(playlistToOpen) {
         songlistContainer.innerText = "This playlist has no songs yet"
     }
 }
+
 /**
  * First updates the data inside the hidden modal to a given playlist
  * then displays the modal
@@ -279,6 +257,7 @@ async function openModal(playlistToOpen) {
         openModal(getPlaylistByID(playlistToOpen.playlistID));
     });
 
+    // Joining public playlists is unique to the featured page
     if(user.email != null){
         const joinPublicPlaylistButton = document.getElementById("joinPublicPlaylistButton");
         joinPublicPlaylistButton.style.display = "block";

@@ -1,11 +1,13 @@
 import { Auth } from "./auth.js";
-import { sortingFunctions, getHeartPath, populateModalData } from "./utils.js";
+import { sortingFunctions, getHeartPath, populateModalData, renderSongList, encodeHTML } from "./utils.js";
 
 
 const auth = await Auth.setUpAuth();
 
 // Hold the current userID (updated with auth later, used for the liked_users list)
 let userID = "local";
+
+const shouldRenderAddSongButtonBoolean = true;
 
 document.getElementById("sortSelecter").addEventListener("change", (event) => {
     // alert("ASDFasdfasdfafdadf")
@@ -164,10 +166,10 @@ createSongModal.addEventListener("close", async () => {
             await auth.dbUpdatePlaylist(playlistToOpen);
 
             await loadPlaylistFromDatabase();
-            renderSongList(playlistToOpen);
+            renderSongList(playlistToOpen, shouldRenderAddSongButtonBoolean);
         } else {
             await renderCurrentUser();
-            renderSongList(playlistToOpen);
+            renderSongList(playlistToOpen, shouldRenderAddSongButtonBoolean);
         }
     }
 });
@@ -341,44 +343,7 @@ function getPlaylistByID(playlistID) {
     return playlistFound;
 }
 
-const addSongButtonCode = `
-<li class="songlistItemContainer" id="createNewSongButton">
-<img id="addSongImage" draggable="false"  src="assets/img/plus-solid.svg">
-<div class="songlistItemTextContainer">
-    <h3 class="songlistItemTitle">Add a song</h3>
 
-</div>
-<div class="songlistItemLength"></div>
-</li>`;
-
-/**
- * renders the song list into the modal
- */
-function renderSongList(playlistToOpen) {
-    const songlistContainer = document.getElementById("playlistListOfSongs");
-    songlistContainer.innerHTML = addSongButtonCode;
-    // alert("Asdf")
-    document.getElementById("createNewSongButton").addEventListener("click", () => {
-        if (typeof createSongModal.showModal === "function") {
-            createSongModal.showModal();
-        } else {
-            outputBox.value = "Sorry, the dialog API is not supported by this browser.";
-        }
-    });
-    playlistToOpen.songs.forEach((song) => {
-        let songlistItem = document.createElement("li"); // Create a <li> element
-        songlistItem.innerHTML = `
-            <img class="songlistItemImg" src="${auth.encodeHTML(song.cover_art)}">
-            <div class="songlistItemTextContainer">
-                <h3 class="songlistItemTitle">${auth.encodeHTML(song.title)}</h3>
-                <div class="songlistItemArtist">${auth.encodeHTML(song.artist)}</div>
-                <div class="songlistItemArtist">${auth.encodeHTML(song.album)}</div>
-            </div>
-            <div class="songlistItemLength">${auth.encodeHTML(song.duration)}</div>`;
-        songlistItem.classList.add("songlistItemContainer");
-        songlistContainer.appendChild(songlistItem); // Add <li> to the <ul>
-    });
-}
 
 // declorated outside of the function so it can be shuffled later
 let playlistToOpen = null;
@@ -394,7 +359,7 @@ function openModal(playlistIDToGet) {
 
     populateModalData(playlistToOpen, userID);
 
-    renderSongList(playlistToOpen);
+    renderSongList(playlistToOpen, shouldRenderAddSongButtonBoolean);
 
     document.getElementById("playlistModalLikesContainer").addEventListener("click", function () {
         likePlaylist(playlistToOpen.playlistID);
@@ -469,7 +434,7 @@ function shuffleSongs() {
     // clears all elements from the song container
     songlistContainer.innerHTML = "";
     shuffleArray(playlistToOpen.songs);
-    renderSongList(playlistToOpen);
+    renderSongList(playlistToOpen, shouldRenderAddSongButtonBoolean);
 }
 
 // binds the shuffle songs the suffle songs button
@@ -519,11 +484,11 @@ function renderPlaylistList() {
 
         let playlistItem = document.createElement("li"); // Create a <li> element
         playlistItem.innerHTML = `
-                <img class="playlistItemImage" src="${auth.encodeHTML(
+                <img class="playlistItemImage" src="${encodeHTML(
                     playlist.playlist_art
                 )}" alt="playlist Image"></img>
-                <h3 class="playlistItemTitle">${auth.encodeHTML(playlist.playlist_name)}</h3>
-                <p class="playlistItemCreatorName">${auth.encodeHTML(playlist.playlist_creator)}</p>
+                <h3 class="playlistItemTitle">${encodeHTML(playlist.playlist_name)}</h3>
+                <p class="playlistItemCreatorName">${encodeHTML(playlist.playlist_creator)}</p>
                 <div id="${"LikesContainerID" + playlist.playlistID}" class="playlistItemLikesContainer">
                     <img class="playlistItemHeart" src="${currentHeartPath}" >
                     <div class="playlistItemLikesCount">${playlist.liked_users.length}</div>
