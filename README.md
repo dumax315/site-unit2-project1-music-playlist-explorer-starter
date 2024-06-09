@@ -2,7 +2,7 @@
 
 Submitted by: **Theo Halpern**
 
-Estimated time spent: **40** hours spent in total
+Estimated time spent: **30** hours spent in total
 
 Deployed Application (optional): [Music Playlist Explorer Deployed Site](https://site-unit2-project1-music-playlis-git-beb954-dumax315s-projects.vercel.app/)
 
