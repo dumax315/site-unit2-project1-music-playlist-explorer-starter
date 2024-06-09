@@ -6,6 +6,9 @@ const auth = await Auth.setUpAuth();
 
 let data = { playlists: [] };
 
+// -1 indicates unset, it is a global varible so that rerenders caused by liking the playlist wont change the featured playlist
+let idOfFeaturedPlaylist = -1;
+
 
 document.getElementById("sortSelecter").addEventListener("change", (event) => {
     // alert("ASDFasdfasdfafdadf")
@@ -44,26 +47,38 @@ async function renderFeaturedPlaylistList() {
         data.playlists.push(dbplaylist.playlistData);
     });
 
-    const sortTypeIndex = parseInt(document.getElementById("sortSelecter").value);
-    data.playlists.sort(sortingFunctions[sortTypeIndex]);
-    console.log(data.playlists)
-
     // Render the featchered playlist
-    const randomPlaylistIndex = Math.floor(Math.random() * data.playlists.length);
-    document.getElementById("randomFeaturedPlaylistImage").src = data.playlists[randomPlaylistIndex].playlist_art;
-    document.getElementById("randomFeaturedPlaylistTitle").innerText = data.playlists[randomPlaylistIndex].playlist_name;
-    document.getElementById("randomFeaturedPlaylistCreator").innerText = data.playlists[randomPlaylistIndex].playlist_creator;
-    document.getElementById("randomFeaturedPlaylistLikesCount").innerText = data.playlists[randomPlaylistIndex].liked_users.length;
-    const randomFeaturedHeartPath = getHeartPath(data.playlists[randomPlaylistIndex].liked_users, user.email);
+
+    // if the featured playlist is unset, set it to a random playlist's playlistID (Not the array index)
+    // by setting to a playlistID and not an array index the sorting no longer effects which playlist is referenced
+    if(idOfFeaturedPlaylist == -1){
+        idOfFeaturedPlaylist = data.playlists[Math.floor(Math.random() * data.playlists.length)].playlistID;
+    }
+    const featuredPlaylistObject = getPlaylistByID(idOfFeaturedPlaylist);
+    document.getElementById("randomFeaturedPlaylistImage").src = featuredPlaylistObject.playlist_art;
+    document.getElementById("randomFeaturedPlaylistTitle").innerText = featuredPlaylistObject.playlist_name;
+    document.getElementById("randomFeaturedPlaylistCreator").innerText = featuredPlaylistObject.playlist_creator;
+    document.getElementById("randomFeaturedPlaylistLikesCount").innerText = featuredPlaylistObject.liked_users.length;
+    const randomFeaturedHeartPath = getHeartPath(featuredPlaylistObject.liked_users, user.email);
     document.getElementById("randomFeaturedPlaylistItemHeart").src = randomFeaturedHeartPath;
+
+    // Removes the old event listeners by cloning the element
+    // https://stackoverflow.com/questions/9251837/how-to-remove-all-listeners-in-an-element
+    let old_element = document.getElementById("randomFeaturedPlaylistLikeContainer");
+    let new_element = old_element.cloneNode(true);
+    old_element.parentNode.replaceChild(new_element, old_element);
+
 
     document.getElementById("randomFeaturedPlaylistLikeContainer").addEventListener("click", function (e) {
         if (e && e.stopPropagation) e.stopPropagation();
-        likePlaylist(data.playlists[randomPlaylistIndex].playlistID);
+        likePlaylist(idOfFeaturedPlaylist);
     });
 
     // "randomFeaturedSongsContainer"
-    renderRandomSongList(data.playlists[randomPlaylistIndex]);
+    renderRandomSongList(featuredPlaylistObject);
+
+    const sortTypeIndex = parseInt(document.getElementById("sortSelecter").value);
+    data.playlists.sort(sortingFunctions[sortTypeIndex]);
 
 
     playlistsContainer.innerHTML = "";
@@ -121,6 +136,7 @@ async function likePlaylist(playlistID) {
     }
     console.log(data);
     await auth.dbUpdatePlaylist(curPlaylist);
+
 
     renderFeaturedPlaylistList();
 }
