@@ -1,5 +1,5 @@
 import { Auth } from "./auth.js";
-import { sortingFunctions, getHeartPath, populateModalData, renderSongList, encodeHTML } from "./utils.js";
+import { sortingFunctions, getHeartPath, populateModalData, renderSongList, encodeHTML, clearEventListeners } from "./utils.js";
 
 
 const auth = await Auth.setUpAuth();
@@ -31,15 +31,6 @@ async function renderFeaturedPlaylistList() {
 
     const playlistsContainer = document.getElementById("featuredPlaylistsContainer");
 
-    // // the first item in the grids opens the create playlist <dialog> modally
-    // // This is in reference to // add playlist code
-    // document.getElementById("createNewPlaylistButton").addEventListener("click", () => {
-    //     if (typeof createPlaylistModal.showModal === "function") {
-    //         createPlaylistModal.showModal();
-    //     } else {
-    //         outputBox.value = "Sorry, the dialog API is not supported by this browser.";
-    //     }
-    // });
     data = { playlists: [] };
 
     resobj.data.forEach((dbplaylist) => {
@@ -62,12 +53,7 @@ async function renderFeaturedPlaylistList() {
     const randomFeaturedHeartPath = getHeartPath(featuredPlaylistObject.liked_users, user.email);
     document.getElementById("randomFeaturedPlaylistItemHeart").src = randomFeaturedHeartPath;
 
-    // Removes the old event listeners by cloning the element
-    // https://stackoverflow.com/questions/9251837/how-to-remove-all-listeners-in-an-element
-    let old_element = document.getElementById("randomFeaturedPlaylistLikeContainer");
-    let new_element = old_element.cloneNode(true);
-    old_element.parentNode.replaceChild(new_element, old_element);
-
+    clearEventListeners(document.getElementById("randomFeaturedPlaylistLikeContainer"));
 
     document.getElementById("randomFeaturedPlaylistLikeContainer").addEventListener("click", function (e) {
         if (e && e.stopPropagation) e.stopPropagation();

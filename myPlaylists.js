@@ -1,5 +1,5 @@
 import { Auth } from "./auth.js";
-import { sortingFunctions, getHeartPath, populateModalData, renderSongList, encodeHTML } from "./utils.js";
+import { sortingFunctions, getHeartPath, populateModalData, renderSongList, encodeHTML, clearEventListeners } from "./utils.js";
 
 
 const auth = await Auth.setUpAuth();
@@ -380,11 +380,7 @@ function openModal(playlistIDToGet) {
         }
     });
 
-    // Clones the node to remove the previous event listners
-    // https://stackoverflow.com/questions/9251837/how-to-remove-all-listeners-in-an-element
-    let old_element = document.getElementById("deletePlaylistButton");
-    let new_element = old_element.cloneNode(true);
-    old_element.parentNode.replaceChild(new_element, old_element);
+    clearEventListeners(document.getElementById("deletePlaylistButton"));
 
     document.getElementById("deletePlaylistButton").addEventListener("click", async () => {
         let confirmResponse = confirm("Confirm deletion of " + playlistToOpen.playlist_name);

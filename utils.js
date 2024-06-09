@@ -127,6 +127,16 @@ export const sortingFunctions = [
 ];
 
 /**
+ * Removes the old event listeners by cloning the element
+ * // https://stackoverflow.com/questions/9251837/how-to-remove-all-listeners-in-an-element
+ * @param {dom element} old_element
+ */
+export function clearEventListeners(old_element){
+    let new_element = old_element.cloneNode(true);
+    old_element.parentNode.replaceChild(new_element, old_element);
+}
+
+/**
  * Populates info from a given playlist into the playlist modal
  * @param {object} playlist
  * @param {string} user_email   Used to determine if the user has liked the playlist
@@ -142,11 +152,7 @@ export function populateModalData(playlist, user_email) {
     const heartModalElement = document.getElementById("playlistModalHeart");
     heartModalElement.src = currentHeartPath;
 
-    // Removes the old event listeners by cloning the element
-    // https://stackoverflow.com/questions/9251837/how-to-remove-all-listeners-in-an-element
-    let old_element = document.getElementById("playlistModalLikesContainer");
-    let new_element = old_element.cloneNode(true);
-    old_element.parentNode.replaceChild(new_element, old_element);
+    clearEventListeners(document.getElementById("playlistModalLikesContainer"));
 }
 
 
