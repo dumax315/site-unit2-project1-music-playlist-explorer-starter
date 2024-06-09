@@ -206,11 +206,13 @@ const { stateChange } = auth.supabase.auth.onAuthStateChange(async (event, sessi
 
     if (event === "INITIAL_SESSION") {
         // handle initial session
-        console.log(localStorage.getItem("data"));
+        let curLocalStorageObj = localStorage.getItem("data");
+        console.log(curLocalStorageObj);
         if (
-            localStorage.getItem("data") != "" &&
-            localStorage.getItem("data") != "{}" &&
-            localStorage.getItem("data") != '{"playlists":[]}'
+            curLocalStorageObj != null &&
+            curLocalStorageObj != "" &&
+            curLocalStorageObj != "{}" &&
+            curLocalStorageObj != '{"playlists":[]}'
         ) {
             let shouldRecover = confirm(
                 "Local Data was found from a signed out session\nWould you like to upload it to your account?"
