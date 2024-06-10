@@ -73,13 +73,13 @@ https://www.loom.com/embed/215364d88d3d4d60813747b9bd965263?sid=ec18a3e5-a5dd-40
 ### Reflections
 
 -   Did the topics discussed in your labs prepare you to complete the assignment? Be specific, which features in your weekly assignment did you feel unprepared to complete?
-  I felt like the css concepts (espeically the lab topic about flexbox) were helpful in creating my website.
+  --I felt like the css concepts (espeically the lab topic about flexbox) were helpful in creating my website.
 
 -   If you had more time, what would you have done differently? Would you have added additional features? Changed the way your project responded to a particular event, etc.
-I would have redesigned the website to use a more modern color scheme and would have removed the bg on the cards (also to be more modern)
+--I would have redesigned the website to use a more modern color scheme and would have removed the bg on the cards (also to be more modern)
 
 -   Reflect on your project demo, what went well? Were there things that maybe didn't go as planned? Did you notice something that your peer did that you would like to try next time?
-I felt like the code explanation part of my demo (where I showed how I implomented the search bar) went well. I want to spend more time on slide in the future to make sure I cover all bases.
+--I felt like the code explanation part of my demo (where I showed how I implomented the search bar) went well. I want to spend more time on slide in the future to make sure I cover all bases.
 
 ### Open-source libraries used
 
