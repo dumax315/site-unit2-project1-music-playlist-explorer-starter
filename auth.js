@@ -70,6 +70,13 @@ export class Auth {
 
         const resobj = await this.supabase.from("playlists").select().eq("id", playlistID);
         // .eq('user_id', user.id)
+        //TODO: Handle the case where the playlist is no longer accessable (either private or deleted)
+        if(resobj.data.length == 0){
+            console.log("no playlist found");
+            return;
+        }
+        // if(resobj.data == null)
+        console.log(resobj)
         if (resobj.data[0].user_emails.indexOf(userEmailtoAdd) != -1) {
             console.log("email already present");
             return;
