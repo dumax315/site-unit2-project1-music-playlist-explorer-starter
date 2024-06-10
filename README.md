@@ -64,19 +64,22 @@ https://github.com/dumax315/site-unit2-project1-music-playlist-explorer-starter/
 
 
 
-// below are hosted versions of the vid (there is also a copy in the file
+// below are hosted versions of the vid (there is also a copy in the main dir)
 https://www.loom.com/share/215364d88d3d4d60813747b9bd965263?sid=9946ebeb-4fdf-4848-87f7-1ab4a813f098
 
 https://www.loom.com/embed/215364d88d3d4d60813747b9bd965263?sid=ec18a3e5-a5dd-406a-9d63-015cbf6a8155
 
 
-### Reflection (TODO)
+### Reflections
 
 -   Did the topics discussed in your labs prepare you to complete the assignment? Be specific, which features in your weekly assignment did you feel unprepared to complete?
+  I felt like the css concepts (espeically the lab topic about flexbox) were helpful in creating my website.
 
 -   If you had more time, what would you have done differently? Would you have added additional features? Changed the way your project responded to a particular event, etc.
+I would have redesigned the website to use a more modern color scheme and would have removed the bg on the cards (also to be more modern)
 
 -   Reflect on your project demo, what went well? Were there things that maybe didn't go as planned? Did you notice something that your peer did that you would like to try next time?
+I felt like the code explanation part of my demo (where I showed how I implomented the search bar) went well. I want to spend more time on slide in the future to make sure I cover all bases.
 
 ### Open-source libraries used
 
