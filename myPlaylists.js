@@ -522,7 +522,7 @@ async function playlistJSON() {
         if (!privacyConfirm) {
             return;
         }
-        await auth.addUserToPlaylist(1);
+        // await auth.addUserToPlaylist(1);
         await auth.addUserToPlaylist(2);
         await auth.addUserToPlaylist(3);
         await auth.addUserToPlaylist(4);
