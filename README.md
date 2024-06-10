@@ -1,8 +1,8 @@
-## Unit 2 Assignment: Music Playlist Explorer
+## Meta U CodePath Assignment: Music Playlist Explorer
 
 Submitted by: **Theo Halpern**
 
-Estimated time spent: **#** hours spent in total
+Estimated time spent: **30** hours spent in total
 
 Deployed Application (optional): [Music Playlist Explorer Deployed Site](https://site-unit2-project1-music-playlis-git-beb954-dumax315s-projects.vercel.app/)
 
@@ -118,6 +118,7 @@ Give a shout out to somebody from your cohort that especially helped you during 
 | retool has local data is uploaded with respect to ids                    |                                 |                     | finished 11:40         |
 | write a report/section on the privazy measures and implimacations        | 2 hours                         |                     |                        |
 | refactor the code base into multiple files                               | 1.5 hours                       | started 3:55        | 50% complete 5 pm 6/7  |
+| refactor the code base into multiple files  Part 2 (utils.js)            | 1.5 hours                       | started 3:55        | 50% complete 5 pm 6/7  |
 | polish and integrate login and signup pages (maybe combine into one)     | 1.5 hours (to do it right)      |                     |                        |
 | credit font awsome in the footer                                         | 10 min                          |                     |                        |
 | lower the amount of rerender of the playlistlists                        | 45 min                          |                     |                        |
